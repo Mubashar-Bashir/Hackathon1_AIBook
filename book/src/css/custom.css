@@ -1,0 +1,120 @@
+:root {
+  /* Neon style colors */
+  --ifm-color-primary: #00e676; /* Green A400 */
+  --ifm-color-primary-dark: #00c853; /* Green A700 */
+  --ifm-color-primary-darker: #00b04a;
+  --ifm-color-primary-darkest: #008f3d;
+  --ifm-color-primary-light: #69f0ae; /* Green A200 */
+  --ifm-color-primary-lighter: #b9f6ca; /* Green A100 */
+  --ifm-color-primary-lightest: #ccff90; /* Lime A100 */
+
+  --ifm-color-secondary: #ff4081; /* Pink A200 */
+  --ifm-color-secondary-dark: #f50057; /* Pink A400 */
+
+  --ifm-background-color: #121212; /* Very dark background */
+  --ifm-background-surface-color: #1e1e1e; /* Slightly lighter for cards/sections */
+  --ifm-text-color: #e0e0e0; /* Light grey for text */
+  --ifm-color-emphasis-800: #e0e0e0;
+  --ifm-color-emphasis-700: #bdbdbd;
+  --ifm-color-emphasis-200: #424242;
+  --ifm-color-emphasis-100: #2c2c2c;
+
+  --ifm-link-color: var(--ifm-color-primary);
+  --ifm-hover-glow: 0 0 8px var(--ifm-color-primary-light);
+
+  /* Typography */
+  --ifm-font-family-base: 'Inter', sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', monospace;
+  --ifm-font-size-base: 16px;
+
+  /* Border radius for a slightly modern look */
+  --ifm-border-radius: 6px;
+
+  /* Dark mode overrides (adjusting for stronger neon in dark mode) */
+  html[data-theme='dark'] {
+    --ifm-background-color: #000000; /* Pure black for maximum contrast */
+    --ifm-background-surface-color: #0d0d0d;
+    --ifm-text-color: #f0f0f0; /* Slightly brighter text */
+    --ifm-link-color: #00e676; /* Ensure vibrant links */
+    --ifm-hover-glow: 0 0 12px #00e676, 0 0 20px #00e676; /* Stronger glow */
+  }
+}
+
+/* Basic global styles */
+body {
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-text-color);
+  background-color: var(--ifm-background-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-text-color);
+  text-shadow: 0 0 5px var(--ifm-color-primary-light), 0 0 10px var(--ifm-color-primary-dark);
+}
+
+a {
+  color: var(--ifm-link-color);
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+a:hover {
+  text-decoration: none; /* No underline on hover for neon */
+  color: var(--ifm-color-primary-light);
+  text-shadow: var(--ifm-hover-glow);
+}
+
+code, pre {
+  background-color: var(--ifm-color-emphasis-100);
+  border-radius: var(--ifm-border-radius);
+}
+
+.alert {
+  background-color: var(--ifm-background-surface-color);
+  border-left: 5px solid var(--ifm-color-primary);
+  color: var(--ifm-text-color);
+}
+
+.card {
+  background-color: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-border-radius);
+}
+
+/* Adjust hero banner for dark theme */
+.heroBanner {
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-text-color);
+  /* Optional: Add subtle background animation or pattern for neon feel */
+}
+
+.hero__title,
+.hero__subtitle {
+  text-shadow: 0 0 10px var(--ifm-color-primary-light), 0 0 20px var(--ifm-color-primary-dark);
+}
+
+.button--primary {
+  background-color: var(--ifm-color-primary);
+  color: var(--ifm-background-color);
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button--primary:hover {
+  background-color: var(--ifm-color-primary-light);
+  box-shadow: var(--ifm-hover-glow);
+}
+
+.button--secondary {
+  background-color: transparent;
+  color: var(--ifm-color-primary);
+  border: 1px solid var(--ifm-color-primary);
+  transition: color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.button--secondary:hover {
+  color: var(--ifm-color-primary-light);
+  border-color: var(--ifm-color-primary-light);
+  box-shadow: var(--ifm-hover-glow);
+}

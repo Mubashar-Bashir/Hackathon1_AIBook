@@ -1,0 +1,37 @@
+.progressContainer {
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.progressLabel {
+  font-weight: bold;
+  min-width: 80px; /* Adjust as needed */
+}
+
+.progressBarBackground {
+  flex-grow: 1;
+  height: 10px;
+  background-color: var(--ifm-color-emphasis-200); /* Lighter background for the bar */
+  border-radius: var(--ifm-border-radius);
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  background-color: var(--ifm-color-primary);
+  width: 0%; /* Initial state */
+  transition: width 0.5s ease-in-out;
+  border-radius: var(--ifm-border-radius);
+}
+
+.progressBarFill.isComplete {
+  background-color: var(--ifm-color-success); /* Green for complete */
+}
+
+.progressText {
+  font-size: 0.9em;
+  min-width: 40px; /* Adjust as needed */
+  text-align: right;
+}
