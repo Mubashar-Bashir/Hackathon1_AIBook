@@ -1,0 +1,26 @@
+.dashboardContainer {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: var(--ifm-border-radius);
+  background-color: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.dashboardContainer h2 {
+  margin-bottom: 1.5rem;
+  color: var(--ifm-text-color);
+}
+
+.bookProgressItem {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: var(--ifm-border-radius);
+  background-color: var(--ifm-background-color);
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.bookProgressItem h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--ifm-color-primary-dark);
+}
