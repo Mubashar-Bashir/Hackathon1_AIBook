@@ -5,52 +5,55 @@ import styles from './styles.module.css';
 
 type FeatureItem = {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  Svg?: React.ComponentType<React.ComponentProps<'svg'>>;
   description: ReactNode;
+  icon?: string;
 };
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Physical AI Fundamentals',
+    icon: '🤖',
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Explore the core principles of Physical AI - the intersection of artificial intelligence and physical systems.
+        Learn how machines can perceive, reason, and interact with the real world.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Humanoid Robotics',
+    icon: '🦾',
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Dive deep into humanoid robot design, kinematics, and control systems.
+        Understand how to create robots that mimic human movement and interaction.
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Advanced Applications',
+    icon: '🚀',
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Discover cutting-edge applications of Physical AI and Humanoid Robotics in industry,
+        healthcare, and research. Learn about real-world implementations and future possibilities.
       </>
     ),
   },
 ];
 
-function Feature({title, Svg, description}: FeatureItem) {
+function Feature({title, Svg, description, icon}: FeatureItem) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
       <div className="text--center padding-horiz--md">
-        <Heading as="h3">{title}</Heading>
-        <p>{description}</p>
+        <div className="cyber-feature-card cyber-card cyber-glow cyber-glow--violet">
+          <div className="cyber-feature-icon">
+            {icon ? <span className="feature-icon">{icon}</span> : Svg && <Svg className={styles.featureSvg} role="img" />}
+          </div>
+          <Heading as="h3" className="cyber-feature-title">{title}</Heading>
+          <p className="cyber-feature-description">{description}</p>
+        </div>
       </div>
     </div>
   );
@@ -58,7 +61,7 @@ function Feature({title, Svg, description}: FeatureItem) {
 
 export default function HomepageFeatures(): ReactNode {
   return (
-    <section className={styles.features}>
+    <section className={clsx(styles.features, 'cyber-feature-grid-section')}>
       <div className="container">
         <div className="row">
           {FeatureList.map((props, idx) => (

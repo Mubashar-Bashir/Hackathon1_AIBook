@@ -22,6 +22,8 @@ const sidebars: SidebarsConfig = {
       items: [
         'physical-ai/chapter1',
         'physical-ai/chapter2',
+        'physical-ai/chapter3',  // ROS 2
+        'physical-ai/chapter4',  // Gazebo
       ],
     },
     {
@@ -30,6 +32,8 @@ const sidebars: SidebarsConfig = {
       items: [
         'humanoid-robotics/chapter1',
         'humanoid-robotics/chapter2',
+        'humanoid-robotics/chapter3',  // NVIDIA Isaac
+        'humanoid-robotics/chapter4',  // VLA
       ],
     },
   ],

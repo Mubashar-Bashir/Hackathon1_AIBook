@@ -1,31 +1,27 @@
+// src/client-modules/Root.js
 import React from 'react';
-import { useLocation } from '@docusaurus/router';
-import { useEffect } from 'react';
-import { saveProgress } from '../utils/progressStorage';
+import {AuthProvider} from '../contexts/AuthContext';
 
-function Root({ children }) {
-  const location = useLocation();
-
-  useEffect(() => {
-    // This effect runs on every route change
-    const path = location.pathname;
-    if (path.startsWith('/AIBook/docs/')) {
-      const parts = path.split('/');
-      const bookId = 'AIBook'; // Assuming 'AIBook' is the main book ID
-      let chapterId = parts[parts.length - 1];
-
-      // Simple heuristic: if the path ends with a directory name, use that as chapterId
-      // Otherwise, if it ends with a file name, remove the extension
-      if (chapterId.includes('.md') || chapterId.includes('.mdx')) {
-        chapterId = chapterId.split('.')[0];
-      }
-
-      // Simulate 100% completion for now, could be based on scroll position later
-      saveProgress(bookId, chapterId, 100);
-    }
-  }, [location]);
-
-  return <>{children}</>;
+// Browser check function
+function isBrowser() {
+  return typeof window !== 'undefined';
 }
 
-export default Root;
+// Client-only Chatbot component wrapper
+function ClientChatbot() {
+  if (!isBrowser()) {
+    return null;
+  }
+
+  const Chatbot = require('../components/Chatbot').default;
+  return <Chatbot />;
+}
+
+export default function Root({children}) {
+  return (
+    <AuthProvider>
+      {children}
+      <ClientChatbot />
+    </AuthProvider>
+  );
+}

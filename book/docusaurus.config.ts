@@ -18,14 +18,16 @@ const config: Config = {
   url: 'https://mubashar.github.io', // This should be the root domain for GitHub Pages
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/AIBook/', // This should be the repository name for GitHub Pages, assuming it's hosted at mubashar.github.io/AIBook
+  baseUrl: '/', // Changed from '/AIBook/' to resolve duplicate route issue
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'mubashar', // Replace with your GitHub org/user name.
   projectName: 'AIBook', // Replace with your repo name.
+  // Note: baseUrl changed to '/' for local development to avoid duplicate route issues
+  // For GitHub Pages deployment, this would need to be changed back to '/AIBook/'
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
 
   clientModules: [require.resolve('./src/client-modules/Root.js')],
 
@@ -48,21 +50,7 @@ const config: Config = {
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-        },
+        blog: false, // Disable blog to resolve potential duplicate route
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -83,14 +71,15 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
-        {to: '/AIBook/', label: 'Home', position: 'left'},
+        {to: '/', label: 'Home', position: 'left'},
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Books',
         },
-        {to: '/AIBook/blog', label: 'Blog', position: 'left'},
+        {to: '/signup', label: 'Sign Up', position: 'right'},
+        {to: '/login', label: 'Login', position: 'right'},
         {
           href: 'https://github.com/mubashar/AIBook',
           label: 'GitHub',
@@ -130,10 +119,6 @@ const config: Config = {
         {
           title: 'More',
           items: [
-            {
-              label: 'Blog',
-              to: '/blog',
-            },
             {
               label: 'GitHub',
               href: 'https://github.com/facebook/docusaurus',

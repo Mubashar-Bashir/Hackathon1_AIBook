@@ -1,0 +1,32 @@
+---
+title: Robot Arm Kinematics
+sidebar_label: Robot Arm Kinematics
+description: A detailed tutorial on robot arm kinematics, covering forward and inverse kinematics, D-H parameters, and practical considerations.
+---
+
+# Robot Arm Kinematics: Understanding Robot Motion
+
+## 2. Coordinate Systems and Transformations
+
+### Homogeneous Transformation Matrices (HTM)
+
+Homogeneous Transformation Matrices (HTMs) are powerful tools used to represent both the rotation and translation between two coordinate frames in a single matrix. A 4x4 HTM, denoted as `**T**`, combines a 3x3 rotation matrix `**R**` and a 3x1 translation vector `**p**`:
+
+$$
+T =
+\begin{bmatrix}
+R & p \\
+0^\top & 1
+\end{bmatrix}
+$$
+
+Where:
+- `**R**` is the 3x3 rotation matrix, describing the orientation of the new frame relative to the old frame.
+- `**p**` is the 3x1 position vector, describing the origin of the new frame relative to the old frame.
+- `0^\top` is a 1x3 zero vector (transpose of a zero column vector).
+
+HTMs allow us to transform points or vectors from one coordinate system to another. If we have a point P_A in frame A and want to find its representation P_B in frame B, where frame B is known relative to frame A by T_{BA}, we use:
+
+$$
+P_B = T_{BA} P_A
+$$

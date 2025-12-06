@@ -1,0 +1,357 @@
+/* Cyber-Neon Theme for Physical AI & Humanoid Robotics Textbook */
+
+:root {
+  /* Cyber-Neon Color Palette */
+  --cyber-dark-bg: #0b0e2b;
+  --cyber-darker-bg: #060818;
+  --cyber-purple: #6a11cb;
+  --cyber-blue: #1a013c;
+  --cyber-cyan: #00f0ff;
+  --cyber-teal: #00ffcc;
+  --cyber-green: #00ff8c;
+  --cyber-violet: #b388ff;
+  --cyber-pink: #ff2d95;
+  --cyber-glow: rgba(0, 240, 255, 0.3);
+  --cyber-glow-alt: rgba(0, 255, 140, 0.3);
+  --cyber-glow-purple: rgba(179, 136, 255, 0.3);
+
+  /* Glassmorphism variables */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 240, 255, 0.1);
+}
+
+/* Apply cyber-neon theme to Docusaurus */
+html[data-theme='light'] {
+  --ifm-background-color: var(--cyber-darker-bg);
+  --ifm-background-surface-color: var(--cyber-dark-bg);
+  --ifm-color-primary: var(--cyber-cyan);
+  --ifm-color-primary-dark: var(--cyber-teal);
+  --ifm-color-primary-darker: var(--cyber-green);
+  --ifm-color-primary-darkest: var(--cyber-violet);
+  --ifm-color-primary-light: var(--cyber-pink);
+  --ifm-color-primary-lighter: #ff6dc7;
+  --ifm-color-primary-lightest: #ff9ce0;
+  --ifm-navbar-background-color: var(--cyber-dark-bg);
+  --ifm-footer-background-color: var(--cyber-darker-bg);
+  --ifm-card-background-color: var(--cyber-dark-bg);
+  --ifm-card-border-color: var(--glass-border);
+}
+
+/* Cyber-Neon Glow Effects */
+.cyber-glow {
+  position: relative;
+  z-index: 1;
+}
+
+.cyber-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  z-index: -1;
+  filter: blur(20px);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.cyber-glow--cyan::after {
+  background: radial-gradient(circle, var(--cyber-cyan) 0%, transparent 70%);
+}
+
+.cyber-glow--green::after {
+  background: radial-gradient(circle, var(--cyber-green) 0%, transparent 70%);
+}
+
+.cyber-glow--violet::after {
+  background: radial-gradient(circle, var(--cyber-violet) 0%, transparent 70%);
+}
+
+/* Glassmorphism Cards */
+.cyber-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 var(--cyber-glow);
+  border-color: var(--cyber-cyan);
+}
+
+/* Neon Button Styles */
+.cyber-button {
+  position: relative;
+  background: transparent;
+  border: 2px solid var(--cyber-cyan);
+  color: var(--cyber-cyan);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.cyber-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.cyber-button:hover {
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 15px var(--cyber-cyan);
+  color: white;
+  border-color: var(--cyber-teal);
+}
+
+.cyber-button:hover::before {
+  left: 100%;
+}
+
+/* Hero Section with Glowing Elements */
+.cyber-hero {
+  background: linear-gradient(135deg, var(--cyber-darker-bg) 0%, var(--cyber-blue) 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 80px 20px;
+}
+
+.cyber-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 10% 20%, var(--cyber-glow) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, var(--cyber-glow-alt) 0%, transparent 20%),
+    radial-gradient(circle at 50% 50%, var(--cyber-glow-purple) 0%, transparent 30%);
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.cyber-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.cyber-hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, var(--cyber-cyan), var(--cyber-teal), var(--cyber-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px var(--cyber-glow);
+}
+
+.cyber-hero-subtitle {
+  font-size: 1.5rem;
+  color: var(--cyber-cyan);
+  margin-bottom: 2rem;
+  text-shadow: 0 0 10px var(--cyber-glow);
+}
+
+/* Feature Cards */
+.cyber-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.cyber-feature-card {
+  padding: 2rem;
+  text-align: center;
+}
+
+.cyber-feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--cyber-cyan);
+  text-shadow: 0 0 15px var(--cyber-cyan);
+}
+
+.cyber-feature-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cyber-teal);
+  margin-bottom: 1rem;
+  text-shadow: 0 0 10px var(--cyber-glow-alt);
+}
+
+.cyber-feature-description {
+  color: #e0e0ff;
+  line-height: 1.6;
+}
+
+/* Navigation Bar */
+.cyber-navbar {
+  background: rgba(11, 14, 43, 0.9) !important;
+  backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+}
+
+.cyber-navbar-item {
+  position: relative;
+  color: var(--cyber-cyan) !important;
+  transition: all 0.3s ease;
+}
+
+.cyber-navbar-item:hover {
+  color: var(--cyber-teal) !important;
+}
+
+.cyber-navbar-item::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--cyber-cyan);
+  transition: width 0.3s ease;
+}
+
+.cyber-navbar-item:hover::after {
+  width: 100%;
+}
+
+/* Code Blocks */
+.cyber-code-block {
+  background: var(--cyber-dark-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 20px var(--cyber-glow) !important;
+}
+
+/* Sidebar */
+.cyber-sidebar {
+  background: var(--cyber-dark-bg) !important;
+  border-right: 1px solid var(--glass-border) !important;
+}
+
+.cyber-sidebar-item {
+  color: var(--cyber-violet) !important;
+  transition: all 0.3s ease;
+}
+
+.cyber-sidebar-item:hover {
+  color: var(--cyber-teal) !important;
+  text-shadow: 0 0 10px var(--cyber-glow-alt);
+}
+
+/* Floating Particles Effect */
+.cyber-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cyber-particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--cyber-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--cyber-cyan);
+  animation: float 15s infinite linear;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(100px);
+    opacity: 0;
+  }
+}
+
+/* Animated Gradient Backgrounds */
+.animated-gradient {
+  background-size: 200% 200% !important;
+  animation: gradientShift 4s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Cyber Divider */
+.cyber-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyber-cyan), transparent);
+  margin: 2rem 0;
+  position: relative;
+}
+
+.cyber-divider::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  background: var(--cyber-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 15px var(--cyber-cyan);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: translateX(-50%) scale(1); opacity: 1; }
+  50% { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
+  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cyber-hero-title {
+    font-size: 2.5rem;
+  }
+
+  .cyber-hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .cyber-feature-grid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+}
