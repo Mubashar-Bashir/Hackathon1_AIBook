@@ -20,8 +20,10 @@ The journey into Physical AI and Humanoid Robotics is one of innovation and disc
 <!-- Placeholder for a detailed index. This will eventually link to various sections. -->
 *   [Introduction to Physical AI Fundamentals](/docs/physical-ai/chapter1)
 *   [Advanced Physical AI Concepts](/docs/physical-ai/chapter2)
-*   [Humanoid Robotics Basics](/docs/humanoid-robotics/chapter1)
-*   [Advanced Humanoid Robotics Topics](/docs/humanoid-robotics/chapter2)
+*   [An Introduction to the Robot Operating System (ROS 2)](/docs/physical-ai/chapter3)
+*   [Simulating Robots and Environments with Gazebo](/docs/physical-ai/chapter4)
+*   [Advanced Perception and Simulation with NVIDIA Isaac](/docs/humanoid-robotics/chapter3)
+*   [Integrating Language and Vision for Robotic Action (VLA)](/docs/humanoid-robotics/chapter4)
 *   <!-- More links to modules/chapters will be added here -->
 
 ## Modules & Chapters
