@@ -4,6 +4,7 @@ import { authConfig } from '../config/authConfig';
 export interface User {
   userId: string;
   email: string;
+  background?: string; // 'beginner', 'intermediate', 'expert'
   softwareExperience?: string;
   hardwareExperience?: string;
   interests?: string[];

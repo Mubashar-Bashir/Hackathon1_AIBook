@@ -221,3 +221,10 @@ Wait for consent; never auto-create ADRs. Group related decisions (stacks, authe
 
 ## Code Standards
 See `.specify/memory/constitution.md` for code quality, testing, performance, security, and architecture principles.
+
+## Active Technologies
+- Python 3.11, JavaScript/TypeScript (Node.js 18+), Markdown + Docusaurus 3.x, FastAPI 0.104+, Neon Serverless Postgres, Qdrant Cloud, Cohere API, Google Gemini API, BetterAuth.com (001-ai-robotics-textbook)
+- Neon Serverless Postgres (user data), Qdrant Cloud (vector embeddings), GitHub Pages (static content) (001-ai-robotics-textbook)
+
+## Recent Changes
+- 001-ai-robotics-textbook: Added Python 3.11, JavaScript/TypeScript (Node.js 18+), Markdown + Docusaurus 3.x, FastAPI 0.104+, Neon Serverless Postgres, Qdrant Cloud, Cohere API, Google Gemini API, BetterAuth.com

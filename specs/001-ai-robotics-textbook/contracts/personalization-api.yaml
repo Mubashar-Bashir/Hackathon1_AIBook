@@ -1,0 +1,120 @@
+# API Contract: Personalization Service
+
+## Overview
+The Personalization Service provides endpoints for customizing textbook content based on user background (beginner, intermediate, expert).
+
+## Base URL
+`/api/personalization`
+
+## Endpoints
+
+### GET /chapter/{chapter_id}
+**Description**: Get personalized content for a specific chapter based on the user's background.
+
+**Headers**:
+```
+Authorization: Bearer {session_token} (required for personalized content)
+```
+
+**Path Parameters**:
+- `chapter_id`: string - The ID of the chapter to personalize
+
+**Query Parameters**:
+- `background` (optional): string - Override user's background ('beginner', 'intermediate', 'expert')
+
+**Response (Success)**:
+```json
+{
+  "chapter_id": "string - The ID of the chapter",
+  "original_title": "string - Original chapter title",
+  "original_content": "string - Original chapter content",
+  "personalized_title": "string - Personalized chapter title",
+  "personalized_content": "string - Personalized chapter content based on user background",
+  "background_level": "string - The background level used for personalization",
+  "personalization_applied": "boolean - Whether personalization was applied",
+  "timestamp": "string - ISO 8601 timestamp"
+}
+```
+
+**Response (Error)**:
+```json
+{
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+**Authentication**: Optional (personalization applied only for authenticated users)
+
+### POST /apply
+**Description**: Apply personalization to provided content based on user background.
+
+**Headers**:
+```
+Authorization: Bearer {session_token} (required for personalized content)
+```
+
+**Request**:
+```json
+{
+  "content": "string (required) - The content to personalize",
+  "background": "string (optional) - Background level ('beginner', 'intermediate', 'expert'), defaults to user's background if authenticated",
+  "personalization_type": "string (optional) - Type of personalization ('simplification', 'elaboration', 'examples', 'all'), defaults to 'all'"
+}
+```
+
+**Response (Success)**:
+```json
+{
+  "original_content": "string - The original content",
+  "personalized_content": "string - The personalized content",
+  "background_level": "string - The background level used for personalization",
+  "personalization_type": "string - The type of personalization applied",
+  "timestamp": "string - ISO 8601 timestamp"
+}
+```
+
+**Response (Error)**:
+```json
+{
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+**Authentication**: Optional (personalization applied only for authenticated users)
+
+### GET /user-background
+**Description**: Get the current user's background information.
+
+**Headers**:
+```
+Authorization: Bearer {session_token}
+```
+
+**Response (Success)**:
+```json
+{
+  "user_id": "string - The user's ID",
+  "background": "string - The user's experience level ('beginner', 'intermediate', 'expert')",
+  "preferences": "object - User preferences related to learning",
+  "timestamp": "string - ISO 8601 timestamp"
+}
+```
+
+**Response (Error)**:
+```json
+{
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+**Authentication**: Required (valid session token)
+
+## Error Codes
+- `UNAUTHORIZED`: User is not authenticated or session has expired
+- `CHAPTER_NOT_FOUND`: The specified chapter does not exist
+- `INVALID_BACKGROUND`: Background level is not one of the allowed values
+- `PERSONALIZATION_FAILED`: Error occurred during content personalization
+- `NO_AUTHENTICATED_USER`: No authenticated user and no background specified

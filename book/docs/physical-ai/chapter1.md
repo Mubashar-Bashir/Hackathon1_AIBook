@@ -20,7 +20,7 @@ The scope of Physical AI is broad, encompassing several key areas:
 *   **Learning in Physical Systems:** How embodied AI agents acquire new skills, adapt to novel situations, and improve their performance through interaction with the physical world, often involving reinforcement learning, imitation learning, or adaptive control.
 *   **Human-Robot Interaction (HRI):** The study of how humans and physical AI systems can effectively and safely interact and collaborate in shared physical spaces.
 
-\![Diagram illustrating the components of Physical AI: Embodiment, Perception, Action, Control, and Learning.](/img/physical-ai-components.png)
+\![Diagram illustrating the components of Physical AI: Embodiment, Perception, Action, Control, and Learning.](/img/docusaurus.png)
 
 ## 1.3 Physical AI vs. Traditional AI: Key Differences
 
@@ -48,7 +48,7 @@ Understanding Physical AI requires a grasp of several interconnected concepts th
 *   **Learning in Physical Systems:** How robots develop new behaviors and adapt to changes. This often involves techniques like Reinforcement Learning, where an agent learns through trial and error by receiving rewards or penalties for its actions in the physical world.
 *   **Cognitive Robotics:** The integration of AI reasoning (e.g., planning, problem-solving, knowledge representation) with robotic perception and action to achieve more sophisticated, human-like intelligence in physical agents.
 
-\![Flowchart showing the cycle of Perception, Reasoning/Learning, and Action in a Physical AI system.](/img/physical-ai-cycle.png)
+\![Flowchart showing the cycle of Perception, Reasoning/Learning, and Action in a Physical AI system.](/img/docusaurus.png)
 
 ## 1.5 Importance and Applications of Physical AI
 
