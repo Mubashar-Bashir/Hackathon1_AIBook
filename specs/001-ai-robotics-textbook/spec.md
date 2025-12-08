@@ -69,7 +69,7 @@ A logged-in user who prefers to read content in Urdu wants to translate the chap
 - **FR-002**: Textbook content MUST encompass the "Physical AI & Humanoid Robotics" course details, including all modules, weekly breakdowns, learning outcomes, and "Why Physical AI Matters" sections.
 - **FR-003**: System MUST be deployable to GitHub Pages.
 - **FR-004**: System MUST embed a Retrieval-Augmented Generation (RAG) chatbot within the published book.
-- **FR-005**: The RAG chatbot MUST use FastAPI, Neon Serverless Postgres, Qdrant Cloud Free Tier, OpenAI Embedding Models for content vectorization, and Claude or gemini for response generation (potentially orchestrated by OpenAI Agents/ChatKit SDKs for other RAG components if applicable).
+- **FR-005**: The RAG chatbot MUST use FastAPI, Neon Serverless Postgres, Qdrant Cloud Free Tier, Cohere embedding models (with OpenAI as fallback) for content vectorization, and Gemini for response generation (potentially orchestrated by OpenAI Agents/ChatKit SDKs for other RAG components if applicable).
 - **FR-006**: The RAG chatbot MUST answer questions accurately based on the entire book's content and upon selection of the active content by the help of cursor.
 - **FR-007**: The RAG chatbot MUST answer questions accurately based *only* on user-selected text within a chapter.
 - **FR-008**: System MUST support user signup and signin functionality.
@@ -78,15 +78,27 @@ A logged-in user who prefers to read content in Urdu wants to translate the chap
 - **FR-011**: Logged-in users MUST be able to personalize chapter content based on their provided background.
 - **FR-012**: Logged-in users MUST be able to translate chapter content to Urdu.
 - **FR-013**: The textbook creation process MUST utilize Claude Code Subagents and Agent Skills for reusable intelligence (as a development process requirement for bonus points).
+- **FR-014**: System MUST implement basic security with authentication for all user-facing features.
+- **FR-015**: System MUST cache responses to maintain functionality during external service outages.
 
 ### Key Entities
 
 -   **Book**: The primary collection of educational content for the course.
 -   **Chapter**: A discrete section of the book, containing educational text, images, and potentially interactive elements.
 -   **User**: An individual learner accessing the textbook, who may or may not be authenticated.
--   **User Background**: Structured data representing a user's prior experience in software and hardware.
+-   **User Background**: Simple experience level (beginner, intermediate, expert) representing a user's prior experience in software and hardware.
 -   **Chatbot Query**: A text input from the user to the RAG chatbot.
 -   **Chatbot Response**: A text output from the RAG chatbot, derived from book content.
+
+## Clarifications
+
+### Session 2025-12-08
+
+- Q: Which AI model should be used for RAG chatbot response generation? → A: Gemini
+- Q: Which embedding model should be used for content vectorization? → A: Primary Cohere with OpenAI as fallback
+- Q: How should user background information be structured during signup? → A: Simple experience level (beginner, intermediate, expert)
+- Q: What level of security measures should be implemented? → A: Basic security with authentication only
+- Q: How should the system handle external service failures? → A: Cache responses to maintain functionality during outages
 
 ## Success Criteria *(mandatory)*
 

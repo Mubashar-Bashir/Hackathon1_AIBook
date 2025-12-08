@@ -18,22 +18,30 @@ const sidebars: SidebarsConfig = {
     'intro',
     {
       type: 'category',
-      label: 'Physical AI Fundamentals',
+      label: 'Module 1: The Robotic Nervous System (ROS 2)',
       items: [
-        'physical-ai/chapter1',
-        'physical-ai/chapter2',
-        'physical-ai/chapter3',  // ROS 2
-        'physical-ai/chapter4',  // Gazebo
+        'module-1-robotic-nervous-system/chapter1',
       ],
     },
     {
       type: 'category',
-      label: 'Humanoid Robotics',
+      label: 'Module 2: The Digital Twin (Gazebo & Unity)',
       items: [
-        'humanoid-robotics/chapter1',
-        'humanoid-robotics/chapter2',
-        'humanoid-robotics/chapter3',  // NVIDIA Isaac
-        'humanoid-robotics/chapter4',  // VLA
+        'module-2-digital-twin/chapter1',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Module 3: The AI-Robot Brain (NVIDIA Isaac™)',
+      items: [
+        'module-3-ai-robot-brain/chapter1',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Module 4: Vision-Language-Action (VLA)',
+      items: [
+        'module-4-vision-language-action/chapter1',
       ],
     },
   ],

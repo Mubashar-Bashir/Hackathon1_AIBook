@@ -1,0 +1,67 @@
+# API Contract: RAG Chatbot Service
+
+## Overview
+The RAG Chatbot Service provides endpoints for querying textbook content using Retrieval-Augmented Generation. It integrates with vector storage and AI models to provide accurate answers based on textbook content.
+
+## Base URL
+`/api/chatbot`
+
+## Endpoints
+
+### POST /query
+**Description**: Submit a query to the RAG chatbot and receive a response based on textbook content.
+
+**Request**:
+```json
+{
+  "query": "string (required) - The question to ask the chatbot",
+  "context_type": "string (optional) - 'full_book', 'current_page', or 'selected_text'",
+  "selected_text": "string (optional) - Text selected by user when context_type is 'selected_text'",
+  "user_id": "string (optional) - User ID for authenticated users"
+}
+```
+
+**Response (Success)**:
+```json
+{
+  "id": "string - Unique identifier for the response",
+  "query": "string - The original query",
+  "response": "string - The chatbot's response",
+  "sources": "array - List of source documents/chunks used",
+  "confidence": "float - Confidence score between 0.0 and 1.0",
+  "timestamp": "string - ISO 8601 timestamp"
+}
+```
+
+**Response (Error)**:
+```json
+{
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+**Authentication**: Optional (user_id can be provided for tracking)
+
+### GET /health
+**Description**: Check the health status of the chatbot service.
+
+**Response (Success)**:
+```json
+{
+  "status": "string - 'healthy'",
+  "timestamp": "string - ISO 8601 timestamp",
+  "dependencies": {
+    "vector_db": "string - Status of vector database connection",
+    "embedding_api": "string - Status of embedding API",
+    "generation_api": "string - Status of response generation API"
+  }
+}
+```
+
+## Error Codes
+- `CHATBOT_UNAVAILABLE`: The chatbot service is temporarily unavailable
+- `INVALID_QUERY`: The query was malformed or empty
+- `NO_CONTEXT_FOUND`: No relevant context found in textbook for the query
+- `EMBEDDING_ERROR`: Error occurred during embedding generation
+- `GENERATION_ERROR`: Error occurred during response generation

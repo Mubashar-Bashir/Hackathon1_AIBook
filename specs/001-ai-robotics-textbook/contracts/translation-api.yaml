@@ -1,0 +1,118 @@
+# API Contract: Translation Service
+
+## Overview
+The Translation Service provides endpoints for translating textbook content to and from Urdu based on user preferences.
+
+## Base URL
+`/api/translation`
+
+## Endpoints
+
+### POST /translate
+**Description**: Translate content to the specified target language.
+
+**Headers**:
+```
+Authorization: Bearer {session_token} (optional)
+```
+
+**Request**:
+```json
+{
+  "text": "string (required) - The text to translate",
+  "target_language": "string (required) - Target language code ('ur' for Urdu, 'en' for English)",
+  "source_language": "string (optional) - Source language code, defaults to auto-detect",
+  "content_type": "string (optional) - Type of content ('text', 'markdown', 'chapter'), defaults to 'text'"
+}
+```
+
+**Response (Success)**:
+```json
+{
+  "original_text": "string - The original text",
+  "translated_text": "string - The translated text",
+  "source_language": "string - Detected or specified source language",
+  "target_language": "string - Target language for translation",
+  "content_type": "string - Type of content that was translated",
+  "timestamp": "string - ISO 8601 timestamp"
+}
+```
+
+**Response (Error)**:
+```json
+{
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+**Authentication**: Optional
+
+### GET /chapter/{chapter_id}/translate
+**Description**: Get a chapter in the specified language.
+
+**Headers**:
+```
+Authorization: Bearer {session_token} (optional)
+```
+
+**Path Parameters**:
+- `chapter_id`: string - The ID of the chapter to translate
+
+**Query Parameters**:
+- `target_language`: string - Target language code ('ur' for Urdu, 'en' for English), defaults to 'ur'
+
+**Response (Success)**:
+```json
+{
+  "chapter_id": "string - The ID of the chapter",
+  "original_title": "string - Original chapter title",
+  "original_content": "string - Original chapter content",
+  "translated_title": "string - Translated chapter title",
+  "translated_content": "string - Translated chapter content",
+  "source_language": "string - Source language",
+  "target_language": "string - Target language",
+  "translation_applied": "boolean - Whether translation was applied",
+  "timestamp": "string - ISO 8601 timestamp"
+}
+```
+
+**Response (Error)**:
+```json
+{
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+**Authentication**: Optional
+
+### GET /supported-languages
+**Description**: Get a list of supported languages for translation.
+
+**Response (Success)**:
+```json
+{
+  "supported_languages": [
+    {
+      "code": "string - Language code (e.g., 'ur', 'en')",
+      "name": "string - Full language name (e.g., 'Urdu', 'English')",
+      "name_native": "string - Native name of the language",
+      "supported_as_source": "boolean - Whether this language is supported as source",
+      "supported_as_target": "boolean - Whether this language is supported as target"
+    }
+  ],
+  "default_language": "string - Default source language ('en')",
+  "timestamp": "string - ISO 8601 timestamp"
+}
+```
+
+**Authentication**: None (public endpoint)
+
+## Error Codes
+- `UNAUTHORIZED`: User is not authenticated (when required)
+- `INVALID_LANGUAGE`: Specified language code is not supported
+- `TRANSLATION_FAILED`: Error occurred during translation
+- `CHAPTER_NOT_FOUND`: The specified chapter does not exist
+- `UNSUPPORTED_TRANSLATION`: The requested translation direction is not supported
+- `INVALID_CONTENT`: The content provided is not valid for translation

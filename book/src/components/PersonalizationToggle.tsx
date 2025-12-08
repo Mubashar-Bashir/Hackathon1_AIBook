@@ -36,16 +36,15 @@ const PersonalizationToggle: React.FC<PersonalizationToggleProps> = ({
       setError(null);
 
       try {
-        const response = await fetch('http://localhost:8000/personalization/personalize', {
+        const response = await fetch('/api/personalization/apply', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('accessToken') || ''}`
           },
           body: JSON.stringify({
-            chapterId,
-            userId: user?.userId,
-            content
+            content,
+            user_background: user?.background, // Use user's background level
+            personalization_type: 'all'
           })
         });
 
@@ -55,7 +54,7 @@ const PersonalizationToggle: React.FC<PersonalizationToggleProps> = ({
         }
 
         const data = await response.json();
-        onContentChange(data.personalizedContent);
+        onContentChange(data.personalized_content);
         setIsPersonalized(true);
       } catch (err) {
         console.error('Personalization error:', err);

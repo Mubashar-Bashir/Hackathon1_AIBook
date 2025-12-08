@@ -9,8 +9,12 @@ interface ChatMessage {
 }
 
 interface ChatbotResponse {
-  responseText: string;
+  id: string;
+  query: string;
+  response: string;
   sources: string[];
+  confidence: number;
+  timestamp: string;
 }
 
 const Chatbot: React.FC = () => {
@@ -96,32 +100,33 @@ const Chatbot: React.FC = () => {
       if (useContext) {
         // Use context-specific endpoint
         requestBody = {
-          queryText: inputText,
-          contextText: selectedText || '',
-          chapterId: currentChapterId || 'unknown',
-          userId: userId
+          query_text: inputText,
+          selected_text: selectedText || '',
+          context_type: 'selected_text',
+          user_id: userId,
+          user_background: user?.background || ''  // Include user background for personalization
         };
 
-        response = await fetch('http://localhost:8000/chatbot/ask-with-context', {
+        response = await fetch('/api/chatbot/query', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('accessToken') || ''}`
           },
           body: JSON.stringify(requestBody)
         });
       } else {
         // Use general endpoint
         requestBody = {
-          queryText: inputText,
-          userId: userId
+          query_text: inputText,
+          context_type: 'full_book',
+          user_id: userId,
+          user_background: user?.background || ''  // Include user background for personalization
         };
 
-        response = await fetch('http://localhost:8000/chatbot/ask', {
+        response = await fetch('/api/chatbot/query', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('accessToken') || ''}`
           },
           body: JSON.stringify(requestBody)
         });
@@ -136,10 +141,10 @@ const Chatbot: React.FC = () => {
 
       // Add bot response to chat
       const botMessage: ChatMessage = {
-        id: Date.now().toString(),
-        text: data.responseText + (data.sources.length > 0 ? `\n\nSources: ${data.sources.join(', ')}` : ''),
+        id: data.id,
+        text: data.response + (data.sources.length > 0 ? `\n\nSources: ${data.sources.join(', ')}` : ''),
         sender: 'bot',
-        timestamp: new Date(),
+        timestamp: new Date(data.timestamp),
       };
 
       setMessages(prev => [...prev, botMessage]);

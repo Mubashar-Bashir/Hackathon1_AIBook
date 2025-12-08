@@ -1,35 +1,49 @@
-# Physical AI & Humanoid Robotics Textbook
+---
+sidebar_position: 1
+---
 
-## Book Image
-<!-- Placeholder for a compelling book cover image -->
-![Book Cover Placeholder](/img/book-cover-placeholder.png)
+# Introduction to Physical AI & Humanoid Robotics
 
-## Introduction
-<!-- A welcoming introduction to the textbook -->
+## Welcome
 This textbook serves as a comprehensive guide to the exciting and rapidly evolving fields of Physical AI and Humanoid Robotics. Designed for students, researchers, and enthusiasts, it covers foundational concepts, advanced theories, and practical applications.
 
-## Overview
-<!-- A brief summary of what the book covers -->
-Dive deep into the mechanics, control systems, and artificial intelligence that power humanoid robots. Explore topics ranging from kinematics and dynamics to perception, learning, and human-robot interaction. This book aims to bridge the gap between theoretical understanding and real-world implementation.
+## Course Overview
 
-## Preface
-<!-- A message from the authors, setting the tone and purpose -->
-The journey into Physical AI and Humanoid Robotics is one of innovation and discovery. We believe in making complex subjects accessible and inspiring the next generation of engineers and scientists. This book is a culmination of dedicated research and a passion for pushing the boundaries of what's possible with intelligent machines.
+This course is divided into four comprehensive modules:
 
-## Index
-<!-- Placeholder for a detailed index. This will eventually link to various sections. -->
-*   [Introduction to Physical AI Fundamentals](/docs/physical-ai/chapter1)
-*   [Advanced Physical AI Concepts](/docs/physical-ai/chapter2)
-*   [An Introduction to the Robot Operating System (ROS 2)](/docs/physical-ai/chapter3)
-*   [Simulating Robots and Environments with Gazebo](/docs/physical-ai/chapter4)
-*   [Advanced Perception and Simulation with NVIDIA Isaac](/docs/humanoid-robotics/chapter3)
-*   [Integrating Language and Vision for Robotic Action (VLA)](/docs/humanoid-robotics/chapter4)
-*   <!-- More links to modules/chapters will be added here -->
+### Module 1: The Robotic Nervous System (ROS 2)
+Focus: Middleware for robot control.
+- ROS 2 Nodes, Topics, and Services
+- Bridging Python Agents to ROS controllers using rclpy
+- Understanding URDF (Unified Robot Description Format) for humanoids
 
-## Modules & Chapters
-<!-- This section will link to the main content modules and chapters -->
-Explore the various modules and chapters of the textbook:
+### Module 2: The Digital Twin (Gazebo & Unity)
+Focus: Physics simulation and environment building.
+- Simulating physics, gravity, and collisions in Gazebo
+- High-fidelity rendering and human-robot interaction in Unity
+- Simulating sensors: LiDAR, Depth Cameras, and IMUs
 
-*   [Physical AI Fundamentals](/docs/category/physical-ai-fundamentals)
-*   [Humanoid Robotics](/docs/category/humanoid-robotics)
-*   [Tutorials](/docs/category/tutorials)
+### Module 3: The AI-Robot Brain (NVIDIA Isaac™)
+Focus: Advanced perception and training.
+- NVIDIA Isaac Sim: Photorealistic simulation and synthetic data generation
+- Isaac ROS: Hardware-accelerated VSLAM (Visual SLAM) and navigation
+- Nav2: Path planning for bipedal humanoid movement
+
+### Module 4: Vision-Language-Action (VLA)
+Focus: The convergence of LLMs and Robotics.
+- Voice-to-Action: Using OpenAI Whisper for voice commands
+- Cognitive Planning: Using LLMs to translate natural language ("Clean the room") into a sequence of ROS 2 actions
+- Capstone Project: The Autonomous Humanoid. A final project where a simulated robot receives a voice command, plans a path, navigates obstacles, identifies an object using computer vision, and manipulates it
+
+## Learning Objectives
+
+By the end of this course, you will:
+- Understand the architecture of modern humanoid robots
+- Be able to design and implement robotic control systems using ROS 2
+- Create realistic simulations of robotic systems
+- Apply AI techniques to robotic perception and control
+- Integrate LLMs with robotic systems for natural language interaction
+
+## Navigation
+
+Use the sidebar to navigate through the modules and chapters of this textbook. Each module builds upon the previous one, providing a comprehensive understanding of Physical AI and Humanoid Robotics.
