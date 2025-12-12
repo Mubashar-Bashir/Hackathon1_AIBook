@@ -1,5 +1,5 @@
 import os
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     qdrant_url: str = os.getenv("QDRANT_URL", "")
     qdrant_api_key: str = os.getenv("QDRANT_API_KEY", "")
     better_auth_secret: str = os.getenv("BETTER_AUTH_SECRET", "")
-
+    BETTER_AUTH_URL: str = os.getenv("BETTER_AUTH_URL", "") # Base URL of your app
     # Application settings
     debug: bool = os.getenv("DEBUG", "False").lower() == "true"
     app_name: str = "Physical AI & Humanoid Robotics Textbook Backend"
@@ -33,6 +33,7 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"
+        extra = "ignore"  # Ignore extra environment variables
 
 # Create a global settings instance
 settings = Settings()

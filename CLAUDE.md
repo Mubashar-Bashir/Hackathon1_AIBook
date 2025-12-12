@@ -225,6 +225,8 @@ See `.specify/memory/constitution.md` for code quality, testing, performance, se
 ## Active Technologies
 - Python 3.11, JavaScript/TypeScript (Node.js 18+), Markdown + Docusaurus 3.x, FastAPI 0.104+, Neon Serverless Postgres, Qdrant Cloud, Cohere API, Google Gemini API, BetterAuth.com (001-ai-robotics-textbook)
 - Neon Serverless Postgres (user data), Qdrant Cloud (vector embeddings), GitHub Pages (static content) (001-ai-robotics-textbook)
+- Python 3.11, TypeScript/JavaScript, Markdown + Claude Code framework, Docusaurus 3.x, FastAPI 0.104+, React (001-skills-subagents-ri)
+- File-based (skills in .claude/skills/, subagents in .claude/agents/) (001-skills-subagents-ri)
 
 ## Recent Changes
 - 001-ai-robotics-textbook: Added Python 3.11, JavaScript/TypeScript (Node.js 18+), Markdown + Docusaurus 3.x, FastAPI 0.104+, Neon Serverless Postgres, Qdrant Cloud, Cohere API, Google Gemini API, BetterAuth.com

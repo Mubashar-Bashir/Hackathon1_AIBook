@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List, Optional
 from pydantic import BaseModel, Field
-from ...models.chatbot import ChatbotQueryCreate, ChatbotQueryResponse
-from ...services.rag_service import rag_service
+from src.models.chatbot import ChatbotQueryCreate, ChatbotQueryResponse
+from src.services.rag_service import rag_service
 from datetime import datetime
 import uuid
 

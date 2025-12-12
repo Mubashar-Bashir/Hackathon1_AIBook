@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
 from typing import List, Optional
 from pydantic import BaseModel, Field
-from ...models.personalization import ApplyPersonalizationRequest, ApplyPersonalizationResponse, GetPersonalizedChapterResponse
-from ...services.personalization_service import personalization_service
+from src.models.personalization import ApplyPersonalizationRequest, ApplyPersonalizationResponse, GetPersonalizedChapterResponse
+from src.services.personalization_service import personalization_service
 from datetime import datetime
 import uuid
 
