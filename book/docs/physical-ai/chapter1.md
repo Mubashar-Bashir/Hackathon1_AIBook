@@ -1,3 +1,9 @@
+---
+title: Chapter 1 - Foundations of Physical AI
+sidebar_label: Chapter 1 - Foundations of Physical AI
+description: Introduction to Physical AI and its core concepts
+---
+
 # Chapter 1: Foundations of Physical AI
 
 ## 1.1 Introduction to Physical AI

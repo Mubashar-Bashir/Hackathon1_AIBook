@@ -1,3 +1,9 @@
+---
+title: Chapter 6 - Integrating Language and Vision for Robotic Action (VLA)
+sidebar_label: Chapter 6 - Integrating Language and Vision for Robotic Action (VLA)
+description: Understanding Vision-Language-Action systems for robotics
+---
+
 # Chapter 6: Integrating Language and Vision for Robotic Action (VLA)
 
 ## 6.1 Introduction to Vision-Language-Action (VLA) Systems

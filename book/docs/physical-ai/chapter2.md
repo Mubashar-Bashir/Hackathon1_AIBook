@@ -1,3 +1,9 @@
+---
+title: Chapter 2 - Mathematical and Computational Foundations
+sidebar_label: Chapter 2 - Mathematical and Computational Foundations
+description: Understanding the mathematical foundations for robotics
+---
+
 # Chapter 2: Mathematical and Computational Foundations
 
 ## 2.1 Linear Algebra for Robotics

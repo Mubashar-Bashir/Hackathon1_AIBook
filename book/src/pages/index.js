@@ -1,17 +1,19 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import styles from './index.module.css';
-import UserDashboard from '../components/UserDashboard';
 
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <header className={styles.heroBanner}>
+    <header style={{
+      padding: '4rem 0',
+      textAlign: 'center',
+      backgroundColor: '#17199eff',
+    }}>
       <div className="container">
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
+        <div style={{marginTop: '2rem'}}>
           <a href="/docs/intro" className="button button--secondary button--lg">
             Start Reading
           </a>
@@ -25,34 +27,33 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`Welcome to ${siteConfig.title}`}
+      description="Physical AI & Humanoid Robotics Textbook">
       <HomepageHeader />
       <main>
-        {/* Placeholder for Book Categories */}
-        <section className={styles.features}>
+        <section style={{padding: '4rem 0', textAlign: 'center'}}>
           <div className="container">
-            <div className="row">
-              <div className="col col--6">
-                <h2>Introduction to Physical AI</h2>
-                <p>Explore the foundational concepts of physical AI.</p>
+            <h2>Physical AI & Humanoid Robotics Textbook</h2>
+            <p>Your comprehensive guide to understanding and implementing physical AI and humanoid robotics.</p>
+
+            <div style={{display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '2rem', flexWrap: 'wrap'}}>
+              <div style={{flex: '1', minWidth: '250px', padding: '1rem', border: '1px solid #ddd', borderRadius: '8px'}}>
+                <h3>Module 1: Robotic Nervous System</h3>
+                <p>Learn about ROS 2 and how it acts as the nervous system for robots.</p>
               </div>
-              <div className="col col--6">
-                <h2>Humanoid Robotics Fundamentals</h2>
-                <p>Dive into the mechanics and control of humanoid robots.</p>
+
+              <div style={{flex: '1', minWidth: '250px', padding: '1rem', border: '1px solid #ddd', borderRadius: '8px'}}>
+                <h3>Module 2: Digital Twins</h3>
+                <p>Understand Gazebo and Unity simulation environments.</p>
+              </div>
+
+              <div style={{flex: '1', minWidth: '250px', padding: '1rem', border: '1px solid #ddd', borderRadius: '8px'}}>
+                <h3>Module 3: AI Robot Brains</h3>
+                <p>Explore NVIDIA Isaac™ platform for AI-powered robotics.</p>
               </div>
             </div>
           </div>
         </section>
-
-        {/* Placeholder for My Progress Dashboard */}
-        <section className={styles.dashboard}>
-          <div className="container">
-            <h2>My Progress Dashboard</h2>
-            <UserDashboard />
-          </div>
-        </section>
-
       </main>
     </Layout>
   );

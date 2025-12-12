@@ -1,5 +1,6 @@
 // src/components/Signup.tsx
 import React, { useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
 
 const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -7,6 +8,7 @@ const Signup: React.FC = () => {
   const [name, setName] = useState('');
   const [background, setBackground] = useState(''); // beginner, intermediate, expert
   const [error, setError] = useState('');
+  const { signup } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,31 +19,14 @@ const Signup: React.FC = () => {
         return;
       }
 
-      // Call the signup function with the correct parameters
-      // This will need to match the API endpoint parameters
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          name,
-          password,
-          background
-        })
-      });
+      // Use the auth service signup function
+      await signup({
+        email,
+        password,
+        softwareExperience: background,  // Map background to softwareExperience
+      }, name);  // Pass the name parameter
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Registration failed');
-      }
-
-      const data = await response.json();
       setError('');
-
-      // Store session token if needed
-      localStorage.setItem('sessionToken', data.session_token);
 
       // Redirect or show success message
       window.location.href = '/'; // Redirect to home page after successful signup

@@ -1,23 +1,23 @@
 // src/config/authConfig.ts
 export const authConfig = {
-  // BetterAuth API endpoint
-  apiUrl: process.env.REACT_APP_API_URL || 'http://localhost:8000',
-  
+  // BetterAuth API endpoint - default to localhost:8000 for development
+  apiUrl: 'http://localhost:8000',
+
   // Token expiration settings
   tokenExpirationMinutes: 30,
-  
+
   // OAuth providers configuration
   providers: {
     google: {
-      enabled: process.env.REACT_APP_GOOGLE_CLIENT_ID ? true : false,
-      clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+      enabled: false, // Set to true when you have a client ID
+      clientId: undefined,
     },
     github: {
-      enabled: process.env.REACT_APP_GITHUB_CLIENT_ID ? true : false,
-      clientId: process.env.REACT_APP_GITHUB_CLIENT_ID,
+      enabled: false, // Set to true when you have a client ID
+      clientId: undefined,
     }
   },
-  
+
   // Local storage keys
   storageKeys: {
     accessToken: 'accessToken',

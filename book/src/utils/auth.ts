@@ -38,26 +38,37 @@ class AuthService {
     }
   }
 
-  async signup(userData: SignupData): Promise<LoginResponse> {
+  async signup(userData: SignupData, name?: string): Promise<LoginResponse> {
     // Ensure we're in the browser before making requests
     if (typeof window === 'undefined') {
       throw new Error('Authentication methods can only be used in browser environment');
     }
 
-    const response = await fetch(`${this.apiUrl}/auth/signup`, {
+    const response = await fetch(`${this.apiUrl}/api/auth/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify({
+        email: userData.email,
+        name: name || userData.email.split('@')[0], // Use provided name or derive from email
+        password: userData.password,
+        experience_level: userData.softwareExperience || 'beginner' // Default to beginner if not specified
+      }),
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Signup failed');
+      throw new Error(errorData.detail || 'Signup failed');
     }
 
-    return response.json();
+    const data = await response.json();
+    // Map backend response to frontend expected format
+    return {
+      message: 'Signup successful',
+      accessToken: data.session_token,
+      userId: data.user_id
+    };
   }
 
   async login(email: string, password: string): Promise<LoginResponse> {
@@ -66,7 +77,7 @@ class AuthService {
       throw new Error('Authentication methods can only be used in browser environment');
     }
 
-    const response = await fetch(`${this.apiUrl}/auth/signin`, {
+    const response = await fetch(`${this.apiUrl}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -76,17 +87,41 @@ class AuthService {
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Login failed');
+      throw new Error(errorData.detail || 'Login failed');
     }
 
-    return response.json();
+    const data = await response.json();
+    // Map backend response to frontend expected format
+    return {
+      message: 'Login successful',
+      accessToken: data.session_token,
+      userId: data.user_id
+    };
   }
 
   async logout(): Promise<void> {
+    // Get the current token before removing it
+    const token = this.getToken();
+
     // Remove token from localStorage
     if (typeof window !== 'undefined') {
       localStorage.removeItem(authConfig.storageKeys.accessToken);
       localStorage.removeItem(authConfig.storageKeys.userId);
+    }
+
+    // Call the backend logout endpoint to invalidate the session
+    if (token && typeof window !== 'undefined') {
+      try {
+        await fetch(`${this.apiUrl}/api/auth/logout`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+      } catch (error) {
+        console.error('Backend logout failed:', error);
+        // Continue with frontend logout even if backend call fails
+      }
     }
   }
 
@@ -100,7 +135,7 @@ class AuthService {
       throw new Error('No access token found');
     }
 
-    const response = await fetch(`${this.apiUrl}/auth/profile`, {
+    const response = await fetch(`${this.apiUrl}/api/auth/profile`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`,

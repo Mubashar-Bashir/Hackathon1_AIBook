@@ -1,3 +1,9 @@
+---
+title: Chapter 3 - An Introduction to the Robot Operating System (ROS 2)
+sidebar_label: Chapter 3 - An Introduction to the Robot Operating System (ROS 2)
+description: Understanding ROS 2 framework for robotics
+---
+
 # Chapter 3: An Introduction to the Robot Operating System (ROS 2)
 
 ## 3.1 What is ROS 2 and Why Use It?

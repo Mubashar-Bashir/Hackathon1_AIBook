@@ -13,8 +13,8 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
  Create as many sidebars as you want.
  */
 const sidebars: SidebarsConfig = {
-  // By default, Docusaurus generates a sidebar from the docs folder structure
-  tutorialSidebar: [
+  // Sidebar for the Physical AI & Humanoid Robotics textbook
+  textbookSidebar: [
     'intro',
     {
       type: 'category',
@@ -44,21 +44,27 @@ const sidebars: SidebarsConfig = {
         'module-4-vision-language-action/chapter1',
       ],
     },
-  ],
-
-
-  // But you can create a sidebar manually
-  /*
-  tutorialSidebar: [
-    'intro',
-    'hello',
     {
       type: 'category',
-      label: 'Tutorial',
-      items: ['tutorial-basics/create-a-document'],
+      label: 'Physical AI',
+      items: [
+        'physical-ai/chapter1',
+        'physical-ai/chapter2',
+        'physical-ai/chapter3',
+        'physical-ai/chapter4',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Humanoid Robotics',
+      items: [
+        'humanoid-robotics/chapter1',
+        'humanoid-robotics/chapter2',
+        'humanoid-robotics/chapter3',
+        'humanoid-robotics/chapter4',
+      ],
     },
   ],
-   */
 };
 
 export default sidebars;

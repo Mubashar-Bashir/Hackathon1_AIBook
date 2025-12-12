@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 
 interface PersonalizationToggleProps {
   content: string;
@@ -15,7 +14,35 @@ const PersonalizationToggle: React.FC<PersonalizationToggleProps> = ({
   const [isPersonalized, setIsPersonalized] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { isAuthenticated, user } = useAuth();
+  const [isClient, setIsClient] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    setIsClient(true);
+
+    // Check if we're in the browser and initialize auth state
+    if (typeof window !== 'undefined' && window.location) {
+      // Simulate auth check - in a real app, you'd check actual auth state
+      try {
+        // Attempt to get auth state from context safely
+        import('../contexts/AuthContext').then(({ useAuth }) => {
+          // Since we can't directly use the hook here, we'll check for auth tokens in localStorage
+          const token = localStorage.getItem('authToken');
+          if (token) {
+            setIsAuthenticated(true);
+            // In a real app, you'd get user details from the token or API
+            setUser({ background: localStorage.getItem('userBackground') || 'beginner' });
+          }
+        }).catch(() => {
+          // If there's an issue importing, assume no auth
+          setIsAuthenticated(false);
+        });
+      } catch {
+        setIsAuthenticated(false);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     // Reset to original content when personalization is turned off
@@ -68,6 +95,11 @@ const PersonalizationToggle: React.FC<PersonalizationToggleProps> = ({
       setIsPersonalized(false);
     }
   };
+
+  // Don't render anything during SSR
+  if (!isClient) {
+    return null;
+  }
 
   if (!isAuthenticated) {
     return (

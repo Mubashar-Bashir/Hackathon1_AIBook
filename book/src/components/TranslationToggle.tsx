@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../contexts/AuthContext';
 
 interface TranslationToggleProps {
   content: string;
@@ -16,7 +15,26 @@ const TranslationToggle: React.FC<TranslationToggleProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentLang, setCurrentLang] = useState('en');
-  const { isAuthenticated } = useAuth();
+  const [isClient, setIsClient] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+
+    // Check if we're in the browser and initialize auth state
+    if (typeof window !== 'undefined' && window.location) {
+      // Simulate auth check - in a real app, you'd check actual auth state
+      try {
+        // Check for auth tokens in localStorage
+        const token = localStorage.getItem('authToken');
+        if (token) {
+          setIsAuthenticated(true);
+        }
+      } catch {
+        setIsAuthenticated(false);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     // Reset to original content when translation is turned off
@@ -102,6 +120,11 @@ const TranslationToggle: React.FC<TranslationToggleProps> = ({
       }
     }
   };
+
+  // Don't render anything during SSR
+  if (!isClient) {
+    return null;
+  }
 
   if (!isAuthenticated) {
     return (

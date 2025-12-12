@@ -1,3 +1,9 @@
+---
+title: Chapter 1 - Introduction to Humanoid Robots
+sidebar_label: Chapter 1 - Introduction to Humanoid Robots
+description: Introduction to the field of humanoid robotics
+---
+
 ## Humanoid Robotics - Chapter 1: Introduction to Humanoid Robots
 
 This chapter introduces the fascinating and rapidly evolving field of humanoid robotics. Building upon the foundational concepts of Physical AI and the mechanisms of perception and action discussed in previous chapters, we will now delve into the specific challenges and unique characteristics of robots designed to emulate the human form. From their historical roots to their future potential, humanoid robots represent a pinnacle of robotic engineering and a crucial step towards intelligent systems capable of operating seamlessly in human-centric environments.

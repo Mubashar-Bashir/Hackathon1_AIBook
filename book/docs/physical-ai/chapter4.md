@@ -1,3 +1,9 @@
+---
+title: Chapter 4 - Simulating Robots and Environments with Gazebo
+sidebar_label: Chapter 4 - Simulating Robots and Environments with Gazebo
+description: Understanding Gazebo simulation for robotics
+---
+
 # Chapter 4: Simulating Robots and Environments with Gazebo
 
 ## 4.1 Introduction to Gazebo Simulation

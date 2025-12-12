@@ -1,3 +1,9 @@
+---
+title: Chapter 5 - Advanced Perception and Simulation with NVIDIA Isaac
+sidebar_label: Chapter 5 - Advanced Perception and Simulation with NVIDIA Isaac
+description: Understanding NVIDIA Isaac ecosystem for robotics
+---
+
 # Chapter 5: Advanced Perception and Simulation with NVIDIA Isaac
 
 ## 5.1 Introduction to NVIDIA Isaac Ecosystem
