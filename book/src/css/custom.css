@@ -1,0 +1,409 @@
+:root {
+  /* Cyber-Neon Colors */
+  --cyber-dark-bg: #0b0e2b;
+  --cyber-darker-bg: #060818;
+  --cyber-purple: #6a11cb;
+  --cyber-blue: #1a013c;
+  --cyber-cyan: #00f0ff;
+  --cyber-teal: #00ffcc;
+  --cyber-green: #00ff8c;
+  --cyber-violet: #b388ff;
+  --cyber-pink: #ff2d95;
+  --cyber-glow: rgba(0, 240, 255, 0.3);
+  --cyber-glow-alt: rgba(0, 255, 140, 0.3);
+  --cyber-glow-purple: rgba(179, 136, 255, 0.3);
+
+  /* Glassmorphism variables */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 240, 255, 0.1);
+
+  /* Updated Neon style colors - Cyber theme */
+  --ifm-color-primary: var(--cyber-cyan); /* Electric cyan */
+  --ifm-color-primary-dark: var(--cyber-teal); /* Teal */
+  --ifm-color-primary-darker: var(--cyber-green); /* Neon green */
+  --ifm-color-primary-darkest: var(--cyber-violet); /* Violet */
+  --ifm-color-primary-light: var(--cyber-pink); /* Pink */
+  --ifm-color-primary-lighter: #ff6dc7; /* Lighter pink */
+  --ifm-color-primary-lightest: #ff9ce0; /* Lightest pink */
+
+  --ifm-color-secondary: var(--cyber-violet); /* Violet secondary */
+  --ifm-color-secondary-dark: var(--cyber-teal); /* Teal secondary dark */
+
+  --ifm-background-color: var(--cyber-darker-bg); /* Deep space blue-black */
+  --ifm-background-surface-color: var(--cyber-dark-bg); /* Dark purple-blue */
+  --ifm-text-color: #e0e0ff; /* Light blue-white for better contrast */
+  --ifm-color-emphasis-800: #e0e0ff;
+  --ifm-color-emphasis-700: #c5c5ff;
+  --ifm-color-emphasis-200: #4a4a8a;
+  --ifm-color-emphasis-100: #2a2a5a;
+
+  --ifm-link-color: var(--ifm-color-primary);
+  --ifm-hover-glow: 0 0 8px var(--cyber-cyan), 0 0 15px var(--cyber-cyan);
+
+  /* Typography */
+  --ifm-font-family-base: 'Inter', sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', monospace;
+  --ifm-font-size-base: 16px;
+
+  /* Border radius for a slightly modern look */
+  --ifm-border-radius: 6px;
+
+  /* Dark mode overrides - Cyber theme */
+  html[data-theme='dark'] {
+    --ifm-background-color: var(--cyber-darker-bg); /* Deep space background */
+    --ifm-background-surface-color: var(--cyber-dark-bg); /* Darker surface */
+    --ifm-text-color: #f0f0ff; /* Brighter text for contrast */
+    --ifm-link-color: var(--cyber-cyan); /* Electric cyan links */
+    --ifm-hover-glow: 0 0 12px var(--cyber-cyan), 0 0 20px var(--cyber-cyan); /* Stronger cyan glow */
+  }
+}
+
+/* Import cyber theme styles */
+@import url('./cyber-theme.css');
+
+/* Enhanced cyber-neon styles for existing elements */
+body {
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-text-color);
+  background: linear-gradient(135deg, var(--cyber-darker-bg) 0%, var(--cyber-blue) 100%);
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 10% 20%, var(--cyber-glow) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, var(--cyber-glow-alt) 0%, transparent 20%),
+    radial-gradient(circle at 50% 50%, var(--cyber-glow-purple) 0%, transparent 30%);
+  opacity: 0.1;
+  z-index: -1;
+  pointer-events: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-text-color);
+  text-shadow: 0 0 5px var(--cyber-cyan), 0 0 10px var(--cyber-teal);
+  position: relative;
+}
+
+h1::after, h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 50px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyber-cyan), transparent);
+}
+
+a {
+  color: var(--ifm-link-color);
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease, border-bottom 0.3s ease;
+  position: relative;
+}
+
+a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--cyber-cyan);
+  transition: width 0.3s ease;
+}
+
+a:hover::after {
+  width: 100%;
+}
+
+a:hover {
+  text-decoration: none;
+  color: var(--cyber-teal);
+  text-shadow: var(--ifm-hover-glow);
+}
+
+/* Enhanced card styles with glassmorphism */
+.card {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+  border-radius: 16px !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 12px 40px 0 var(--cyber-glow) !important;
+  border-color: var(--cyber-cyan) !important;
+}
+
+/* Enhanced button styles */
+.button--primary {
+  background: linear-gradient(45deg, var(--cyber-cyan), var(--cyber-teal)) !important;
+  color: white !important;
+  border: none !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+
+.button--primary::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: -100% !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent) !important;
+  transition: 0.5s !important;
+}
+
+.button--primary:hover {
+  background: linear-gradient(45deg, var(--cyber-teal), var(--cyber-green)) !important;
+  box-shadow: 0 0 20px var(--cyber-glow) !important;
+  color: white !important;
+}
+
+.button--primary:hover::before {
+  left: 100% !important;
+}
+
+.button--secondary {
+  background-color: transparent !important;
+  color: var(--cyber-cyan) !important;
+  border: 2px solid var(--cyber-cyan) !important;
+  padding: 10px 22px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+}
+
+.button--secondary:hover {
+  background: rgba(0, 240, 255, 0.1) !important;
+  box-shadow: 0 0 15px var(--cyber-cyan) !important;
+  color: white !important;
+  border-color: var(--cyber-teal) !important;
+}
+
+/* Enhanced code blocks */
+code, pre {
+  background-color: var(--cyber-dark-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 20px var(--cyber-glow) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+code::before, pre::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyber-cyan), var(--cyber-teal), var(--cyber-green));
+}
+
+/* Enhanced navbar */
+.navbar {
+  background: rgba(11, 14, 43, 0.9) !important;
+  backdrop-filter: blur(10px) !important;
+  border-bottom: 1px solid var(--glass-border) !important;
+}
+
+.navbar__item {
+  color: var(--cyber-cyan) !important;
+  transition: all 0.3s ease !important;
+  position: relative !important;
+}
+
+.navbar__item:hover {
+  color: var(--cyber-teal) !important;
+}
+
+.navbar__item::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -5px !important;
+  left: 0 !important;
+  width: 0 !important;
+  height: 2px !important;
+  background: var(--cyber-cyan) !important;
+  transition: width 0.3s ease !important;
+}
+
+.navbar__item:hover::after {
+  width: 100% !important;
+}
+
+/* Enhanced hero banner */
+.heroBanner {
+  background: linear-gradient(135deg, var(--cyber-darker-bg) 0%, var(--cyber-blue) 100%) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  padding: 80px 20px !important;
+}
+
+.heroBanner::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background:
+    radial-gradient(circle at 10% 20%, var(--cyber-glow) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, var(--cyber-glow-alt) 0%, transparent 20%),
+    radial-gradient(circle at 50% 50%, var(--cyber-glow-purple) 0%, transparent 30%) !important;
+  opacity: 0.3 !important;
+  z-index: 0 !important;
+}
+
+.hero__title,
+.hero__subtitle {
+  text-shadow: 0 0 10px var(--cyber-cyan), 0 0 20px var(--cyber-teal) !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Enhanced alert styles */
+.alert {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-left: 3px solid var(--cyber-cyan) !important;
+  color: var(--ifm-text-color) !important;
+  border-radius: 8px !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+
+/* Cyber divider */
+.cyber-divider {
+  height: 2px !important;
+  background: linear-gradient(90deg, transparent, var(--cyber-cyan), transparent) !important;
+  margin: 2rem 0 !important;
+  position: relative !important;
+}
+
+.cyber-divider::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -5px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 20px !important;
+  height: 20px !important;
+  background: var(--cyber-cyan) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 0 15px var(--cyber-cyan) !important;
+  animation: pulse 2s infinite !important;
+}
+
+@keyframes pulse {
+  0% { transform: translateX(-50%) scale(1); opacity: 1; }
+  50% { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
+  100% { transform: translateX(-50%) scale(1); opacity: 1; }
+}
+
+/* Basic global styles */
+body {
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-text-color);
+  background-color: var(--ifm-background-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--ifm-font-family-base);
+  color: var(--ifm-text-color);
+  text-shadow: 0 0 5px var(--ifm-color-primary-light), 0 0 10px var(--ifm-color-primary-dark);
+}
+
+a {
+  color: var(--ifm-link-color);
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+a:hover {
+  text-decoration: none; /* No underline on hover for neon */
+  color: var(--ifm-color-primary-light);
+  text-shadow: var(--ifm-hover-glow);
+}
+
+code, pre {
+  background-color: var(--ifm-color-emphasis-100);
+  border-radius: var(--ifm-border-radius);
+}
+
+.alert {
+  background-color: var(--ifm-background-surface-color);
+  border-left: 5px solid var(--ifm-color-primary);
+  color: var(--ifm-text-color);
+}
+
+.card {
+  background-color: var(--ifm-background-surface-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: var(--ifm-border-radius);
+}
+
+/* Adjust hero banner for dark theme */
+.heroBanner {
+  background-color: var(--ifm-background-color);
+  color: var(--ifm-text-color);
+  /* Optional: Add subtle background animation or pattern for neon feel */
+}
+
+.hero__title,
+.hero__subtitle {
+  text-shadow: 0 0 10px var(--ifm-color-primary-light), 0 0 20px var(--ifm-color-primary-dark);
+}
+
+.button--primary {
+  background-color: var(--ifm-color-primary);
+  color: var(--ifm-background-color);
+  border: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.button--primary:hover {
+  background-color: var(--ifm-color-primary-light);
+  box-shadow: var(--ifm-hover-glow);
+}
+
+.button--secondary {
+  background-color: transparent;
+  color: var(--ifm-color-primary);
+  border: 1px solid var(--ifm-color-primary);
+  transition: color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.button--secondary:hover {
+  color: var(--ifm-color-primary-light);
+  border-color: var(--ifm-color-primary-light);
+  box-shadow: var(--ifm-hover-glow);
+}

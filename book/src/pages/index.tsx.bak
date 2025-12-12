@@ -1,0 +1,45 @@
+import type {ReactNode} from 'react';
+import clsx from 'clsx';
+import Link from '@docusaurus/Link';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Layout from '@theme/Layout';
+import HomepageFeatures from '@site/src/components/HomepageFeatures';
+import Heading from '@theme/Heading';
+
+import styles from './index.module.css';
+
+function HomepageHeader() {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <header className={clsx('hero hero--primary cyber-hero', styles.heroBanner)}>
+      <div className="container cyber-hero-content">
+        <Heading as="h1" className="hero__title cyber-hero-title">
+          {siteConfig.title}
+        </Heading>
+        <p className="hero__subtitle cyber-hero-subtitle">{siteConfig.tagline}</p>
+        <div className={styles.buttons}>
+          <Link
+            className="button button--primary button--lg cyber-button cyber-glow cyber-glow--cyan"
+            to="/docs/intro">
+            Begin Your Journey
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+export default function Home(): ReactNode {
+  const {siteConfig} = useDocusaurusContext();
+  return (
+    <Layout
+      title={`Welcome to ${siteConfig.title}`}
+      description="Physical AI & Humanoid Robotics Textbook - Your comprehensive guide to the future of robotics">
+      <HomepageHeader />
+      <main>
+        <div className="cyber-divider"></div>
+        <HomepageFeatures />
+      </main>
+    </Layout>
+  );
+}

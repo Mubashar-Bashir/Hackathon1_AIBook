@@ -1,0 +1,155 @@
+# API Contract: Authentication Service
+
+## Overview
+The Authentication Service handles user registration, login, and session management. This service integrates with BetterAuth.com for user authentication.
+
+## Base URL
+`/api/auth`
+
+## Endpoints
+
+### POST /register
+**Description**: Register a new user account with background information.
+
+**Request**:
+```json
+{
+  "email": "string (required) - User's email address",
+  "name": "string (required) - User's full name",
+  "password": "string (required) - User's password",
+  "background": "string (required) - User's experience level ('beginner', 'intermediate', 'expert')"
+}
+```
+
+**Response (Success)**:
+```json
+{
+  "user_id": "string - Unique identifier for the user",
+  "email": "string - User's email address",
+  "name": "string - User's full name",
+  "background": "string - User's experience level",
+  "session_token": "string - Session token for authentication",
+  "created_at": "string - ISO 8601 timestamp"
+}
+```
+
+**Response (Error)**:
+```json
+{
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+**Authentication**: None (public endpoint)
+
+### POST /login
+**Description**: Authenticate a user and return a session token.
+
+**Request**:
+```json
+{
+  "email": "string (required) - User's email address",
+  "password": "string (required) - User's password"
+}
+```
+
+**Response (Success)**:
+```json
+{
+  "user_id": "string - Unique identifier for the user",
+  "email": "string - User's email address",
+  "name": "string - User's full name",
+  "background": "string - User's experience level",
+  "session_token": "string - Session token for authentication",
+  "created_at": "string - ISO 8601 timestamp"
+}
+```
+
+**Response (Error)**:
+```json
+{
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+**Authentication**: None (public endpoint)
+
+### GET /profile
+**Description**: Get the authenticated user's profile information.
+
+**Headers**:
+```
+Authorization: Bearer {session_token}
+```
+
+**Response (Success)**:
+```json
+{
+  "user_id": "string - Unique identifier for the user",
+  "email": "string - User's email address",
+  "name": "string - User's full name",
+  "background": "string - User's experience level",
+  "preferences": "object - User preferences including language settings",
+  "created_at": "string - ISO 8601 timestamp",
+  "updated_at": "string - ISO 8601 timestamp"
+}
+```
+
+**Response (Error)**:
+```json
+{
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+**Authentication**: Required (valid session token)
+
+### PUT /profile
+**Description**: Update the authenticated user's profile information.
+
+**Headers**:
+```
+Authorization: Bearer {session_token}
+```
+
+**Request**:
+```json
+{
+  "name": "string (optional) - User's updated full name",
+  "background": "string (optional) - User's updated experience level",
+  "preferences": "object (optional) - Updated user preferences"
+}
+```
+
+**Response (Success)**:
+```json
+{
+  "user_id": "string - Unique identifier for the user",
+  "email": "string - User's email address",
+  "name": "string - User's updated full name",
+  "background": "string - User's updated experience level",
+  "preferences": "object - Updated user preferences",
+  "updated_at": "string - ISO 8601 timestamp"
+}
+```
+
+**Response (Error)**:
+```json
+{
+  "error": "string - Error message",
+  "code": "string - Error code"
+}
+```
+
+**Authentication**: Required (valid session token)
+
+## Error Codes
+- `INVALID_CREDENTIALS`: Provided credentials are incorrect
+- `USER_EXISTS`: User with provided email already exists
+- `INVALID_EMAIL`: Provided email is not valid
+- `WEAK_PASSWORD`: Provided password does not meet security requirements
+- `UNAUTHORIZED`: User is not authenticated or session has expired
+- `INVALID_BACKGROUND`: Background level is not one of the allowed values
