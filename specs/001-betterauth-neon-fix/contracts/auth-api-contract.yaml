@@ -1,0 +1,464 @@
+# API Contract: BetterAuth Authentication API for AIBook
+
+openapi: 3.0.3
+info:
+  title: BetterAuth Authentication API for AIBook
+  description: Authentication API for the AIBook Physical AI & Humanoid Robotics Textbook project
+  version: 1.0.0
+  contact:
+    name: AIBook Development Team
+    email: dev@aibook.ai
+
+servers:
+  - url: http://localhost:8000
+    description: Development server
+  - url: https://api.aibook.ai
+    description: Production server
+
+paths:
+  /api/auth/register:
+    post:
+      summary: Register a new user
+      description: Creates a new user account in the AIBook platform
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistrationRequest'
+      responses:
+        '200':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegistrationResponse'
+        '400':
+          description: Invalid registration data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '409':
+          description: User already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/auth/login:
+    post:
+      summary: Authenticate user
+      description: Authenticates a user with email and password
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginRequest'
+      responses:
+        '200':
+          description: User authenticated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserLoginResponse'
+        '400':
+          description: Invalid login data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/auth/me:
+    get:
+      summary: Get current user
+      description: Retrieves information about the currently authenticated user
+      tags:
+        - Authentication
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Current user information retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileResponse'
+        '401':
+          description: Unauthorized - invalid or expired session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/auth/logout:
+    post:
+      summary: Logout user
+      description: Ends the current user session
+      tags:
+        - Authentication
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Successfully logged out
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LogoutResponse'
+        '401':
+          description: Unauthorized - invalid or expired session
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/auth/forgot-password:
+    post:
+      summary: Request password reset
+      description: Initiates password reset process by sending reset email
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        '200':
+          description: Password reset email sent if account exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicSuccessResponse'
+        '400':
+          description: Invalid email format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/auth/reset-password:
+    post:
+      summary: Reset password
+      description: Resets user password using verification token
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password reset successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BasicSuccessResponse'
+        '400':
+          description: Invalid token or password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid or expired token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    UserRegistrationRequest:
+      type: object
+      required:
+        - email
+        - name
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: "john.doe@example.com"
+        name:
+          type: string
+          description: User's full name
+          example: "John Doe"
+        password:
+          type: string
+          format: password
+          description: User's password (min 8 characters)
+          minLength: 8
+          example: "SecurePassword123!"
+        experience_level:
+          type: string
+          enum: [beginner, intermediate, expert]
+          description: User's experience level with AI/Robotics
+          default: "beginner"
+
+    UserRegistrationResponse:
+      type: object
+      required:
+        - success
+        - user
+        - session_token
+      properties:
+        success:
+          type: boolean
+          example: true
+        user:
+          $ref: '#/components/schemas/UserProfile'
+        session_token:
+          type: string
+          description: Authentication token for subsequent requests
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+    UserLoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: "john.doe@example.com"
+        password:
+          type: string
+          format: password
+          description: User's password
+          example: "SecurePassword123!"
+
+    UserLoginResponse:
+      type: object
+      required:
+        - success
+        - user
+        - session_token
+      properties:
+        success:
+          type: boolean
+          example: true
+        user:
+          $ref: '#/components/schemas/UserProfile'
+        session_token:
+          type: string
+          description: Authentication token for subsequent requests
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+
+    UserProfile:
+      type: object
+      required:
+        - id
+        - email
+        - name
+        - experience_level
+      properties:
+        id:
+          type: string
+          description: Unique user identifier
+          example: "user-12345678-1234-1234-1234-123456789012"
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: "john.doe@example.com"
+        name:
+          type: string
+          description: User's full name
+          example: "John Doe"
+        username:
+          type: string
+          description: User's username (optional)
+          example: "johndoe"
+        experience_level:
+          type: string
+          enum: [beginner, intermediate, expert]
+          description: User's experience level
+          example: "beginner"
+        created_at:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+          example: "2025-01-01T00:00:00Z"
+        last_login:
+          type: string
+          format: date-time
+          description: Last login timestamp
+          nullable: true
+          example: "2025-01-02T10:30:00Z"
+
+    UserProfileResponse:
+      type: object
+      required:
+        - id
+        - email
+        - name
+        - experience_level
+      properties:
+        id:
+          type: string
+          description: Unique user identifier
+          example: "user-12345678-1234-1234-1234-123456789012"
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: "john.doe@example.com"
+        name:
+          type: string
+          description: User's full name
+          example: "John Doe"
+        username:
+          type: string
+          description: User's username (optional)
+          example: "johndoe"
+        experience_level:
+          type: string
+          enum: [beginner, intermediate, expert]
+          description: User's experience level
+          example: "beginner"
+        created_at:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+          example: "2025-01-01T00:00:00Z"
+
+    LogoutResponse:
+      type: object
+      required:
+        - success
+        - message
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          description: Success message
+          example: "Successfully logged out"
+
+    ForgotPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          description: User's email address for password reset
+          example: "john.doe@example.com"
+
+    ResetPasswordRequest:
+      type: object
+      required:
+        - token
+        - new_password
+      properties:
+        token:
+          type: string
+          description: Verification token received via email
+          example: "verification-token-string"
+        new_password:
+          type: string
+          format: password
+          description: New password (min 8 characters)
+          minLength: 8
+          example: "NewSecurePassword123!"
+
+    BasicSuccessResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          description: Optional success message
+          example: "Operation completed successfully"
+
+    ErrorResponse:
+      type: object
+      required:
+        - success
+        - error
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          description: Error message
+          example: "Invalid credentials"
+        code:
+          type: string
+          description: Error code for client handling
+          example: "INVALID_CREDENTIALS"
+
+security:
+  - BearerAuth: []
+
+tags:
+  - name: Authentication
+    description: User authentication and session management endpoints

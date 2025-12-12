@@ -1,0 +1,114 @@
+# API Contract: Skill and Subagent Invocation Interface
+
+## Overview
+This contract defines the interface between Claude Code and the specialized skills and subagents for the AIBook project.
+
+## Skill Invocation API
+
+### POST /api/v1/skills/invoke
+Invoke a specialized skill based on user request and context.
+
+**Request**:
+```json
+{
+  "skill_name": "string",
+  "user_request": "string",
+  "context": {
+    "current_file": "string",
+    "project_type": "string",
+    "user_preferences": {}
+  },
+  "configuration": {}
+}
+```
+
+**Response**:
+```json
+{
+  "status": "success|failure|partial",
+  "result": "string",
+  "duration_ms": "number",
+  "tools_used": ["string"],
+  "warnings": ["string"]
+}
+```
+
+### POST /api/v1/skills/select
+Select the most appropriate skill for a given user request.
+
+**Request**:
+```json
+{
+  "user_request": "string",
+  "context": {
+    "current_file": "string",
+    "project_type": "string",
+    "user_preferences": {}
+  },
+  "available_skills": ["string"]
+}
+```
+
+**Response**:
+```json
+{
+  "selected_skill": "string",
+  "confidence_score": "number",
+  "reasoning": "string",
+  "alternatives_considered": [
+    {
+      "skill_name": "string",
+      "relevance_score": "number"
+    }
+  ]
+}
+```
+
+## Subagent Invocation API
+
+### POST /api/v1/subagents/invoke
+Invoke a specialized subagent for complex tasks.
+
+**Request**:
+```json
+{
+  "agent_name": "string",
+  "task_description": "string",
+  "context": {
+    "current_file": "string",
+    "project_type": "string",
+    "required_outcome": "string"
+  },
+  "configuration": {}
+}
+```
+
+**Response**:
+```json
+{
+  "status": "success|failure|in_progress",
+  "result": "string",
+  "session_id": "string",
+  "estimated_completion": "number"
+}
+```
+
+## Error Responses
+
+All endpoints return standard error format:
+```json
+{
+  "error": {
+    "code": "string",
+    "message": "string",
+    "details": {}
+  }
+}
+```
+
+## Common Error Codes
+- `SKILL_NOT_FOUND`: Requested skill does not exist
+- `INSUFFICIENT_TOOLS`: Skill doesn't have required tool access
+- `CONFIGURATION_ERROR`: Invalid configuration provided
+- `EXTERNAL_SERVICE_ERROR`: Dependency service unavailable
+- `TIMEOUT`: Request exceeded time limits

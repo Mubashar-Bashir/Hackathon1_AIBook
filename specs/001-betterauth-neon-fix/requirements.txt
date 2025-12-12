@@ -1,0 +1,3 @@
+# Dependencies for BetterAuth Demo User Generator
+asyncpg>=0.29.0
+psycopg2-binary>=2.9.7
