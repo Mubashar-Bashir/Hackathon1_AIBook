@@ -7,7 +7,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<LoginResponse>;
-  signup: (userData: any) => Promise<LoginResponse>; // Using any for simplicity
+  signup: (userData: any, name?: string) => Promise<LoginResponse>; // Using any for simplicity
   logout: () => Promise<void>;
   isAuthenticated: boolean;
 }
@@ -55,8 +55,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return response;
   };
 
-  const signup = async (userData: any) => {
-    const response = await authService.signup(userData);
+  const signup = async (userData: any, name?: string) => {
+    const response = await authService.signup(userData, name);
     authService.setToken(response.accessToken, response.userId);
     const profile = await authService.getProfile();
     setUser(profile);

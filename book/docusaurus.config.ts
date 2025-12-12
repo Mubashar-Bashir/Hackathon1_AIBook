@@ -29,7 +29,9 @@ const config: Config = {
 
   onBrokenLinks: 'warn',
 
-  clientModules: [require.resolve('./src/client-modules/Root.js')],
+  clientModules: [
+    require.resolve('./src/client-modules/Root.js'),
+  ],
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -74,7 +76,7 @@ const config: Config = {
         {to: '/', label: 'Home', position: 'left'},
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'textbookSidebar',
           position: 'left',
           label: 'Books',
         },
@@ -94,7 +96,7 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Tutorial',
+              label: 'Textbook',
               to: '/docs/intro',
             },
           ],
