@@ -61,12 +61,47 @@ class UserLogin(BaseModel):
     password: str
 
 class UserLoginResponse(BaseModel):
-    user_id: str
+    success: bool
+    user: 'UserProfile'
+    session_token: str
+
+    class Config:
+        from_attributes = True
+
+
+class UserProfile(BaseModel):
+    id: str
     email: str
     name: str
+    username: Optional[str] = None
     experience_level: str
-    session_token: str
     created_at: datetime
+    last_login: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True
+
+
+class UserRegistrationResponse(BaseModel):
+    success: bool
+    user: UserProfile
+    session_token: str
+
+    class Config:
+        from_attributes = True
+
+
+class LogoutResponse(BaseModel):
+    success: bool
+    message: str
+
+    class Config:
+        from_attributes = True
+
+
+class BasicSuccessResponse(BaseModel):
+    success: bool
+    message: Optional[str] = None
 
     class Config:
         from_attributes = True

@@ -54,7 +54,20 @@ A comprehensive textbook for Physical AI & Humanoid Robotics with integrated RAG
 
 5. Update `.env` with your API keys and service configurations
 
-6. Run the backend server:
+6. **Authentication Setup**: Configure authentication-specific environment variables:
+   ```
+   NEON_DATABASE_URL=your_neon_database_connection_string
+   BETTER_AUTH_SECRET=your_secure_secret_key
+   JWT_ALGORITHM=HS256
+   ACCESS_TOKEN_EXPIRE_MINUTES=30
+   REFRESH_TOKEN_EXPIRE_DAYS=7
+   PASSWORD_MIN_LENGTH=8
+   REQUIRE_STRONG_PASSWORD=true
+   MAX_LOGIN_ATTEMPTS=5
+   LOCKOUT_DURATION_MINUTES=30
+   ```
+
+7. Run the backend server:
    ```bash
    uvicorn src.main:app --reload --port 8000
    ```

@@ -54,14 +54,18 @@ class SessionService:
         """Get session information by token."""
         try:
             from sqlalchemy import select
-            from ..utils.database import Base
+            from ..models.session import Session
             from datetime import datetime
 
-            async with get_db_session() as db:
+            # Get database session using the dependency
+            db_gen = get_db_session()
+            db = await db_gen.__anext__()  # Get the session from the generator
+
+            try:
                 result = await db.execute(
-                    select(Base.classes.sessions)
+                    select(Session)
                     .filter_by(session_token=token)
-                    .filter(Base.classes.sessions.expires_at > datetime.utcnow())
+                    .filter(Session.expires_at > datetime.utcnow())
                 )
                 session = result.scalars().first()
 
@@ -76,6 +80,10 @@ class SessionService:
                         ip_address=session.ip_address,
                         user_agent=session.user_agent
                     )
+
+            finally:
+                # Close the session properly
+                await db_gen.aclose()
 
             return None
         except Exception as e:
@@ -112,19 +120,27 @@ class SessionService:
         """Validate a session token and return user_id if valid."""
         try:
             from sqlalchemy import select
-            from ..utils.database import Base
+            from ..models.session import Session
             from datetime import datetime
 
-            async with get_db_session() as db:
+            # Get database session using the dependency
+            db_gen = get_db_session()
+            db = await db_gen.__anext__()  # Get the session from the generator
+
+            try:
                 result = await db.execute(
-                    select(Base.classes.sessions)
+                    select(Session)
                     .filter_by(session_token=token)
-                    .filter(Base.classes.sessions.expires_at > datetime.utcnow())
+                    .filter(Session.expires_at > datetime.utcnow())
                 )
                 session = result.scalars().first()
 
                 if session:
                     return session.user_id
+
+            finally:
+                # Close the session properly
+                await db_gen.aclose()
 
             return None
         except Exception as e:
@@ -135,17 +151,24 @@ class SessionService:
         """Remove all expired sessions from the database."""
         try:
             from sqlalchemy import delete
-            from ..utils.database import Base
+            from ..models.session import Session
             from datetime import datetime
 
-            async with get_db_session() as db:
+            # Get database session using the dependency
+            db_gen = get_db_session()
+            db = await db_gen.__anext__()  # Get the session from the generator
+
+            try:
                 result = await db.execute(
-                    delete(Base.classes.sessions)
-                    .where(Base.classes.sessions.expires_at < datetime.utcnow())
+                    delete(Session)
+                    .where(Session.expires_at < datetime.utcnow())
                 )
                 await db.commit()
 
                 return result.rowcount
+            finally:
+                # Close the session properly
+                await db_gen.aclose()
         except Exception as e:
             print(f"Error cleaning up expired sessions: {e}")
             return 0
@@ -154,19 +177,26 @@ class SessionService:
         """Remove expired sessions older than specified hours for maintenance."""
         try:
             from sqlalchemy import delete
-            from ..utils.database import Base
+            from ..models.session import Session
             from datetime import datetime, timedelta
 
             cutoff_time = datetime.utcnow() - timedelta(hours=hours_to_keep)
 
-            async with get_db_session() as db:
+            # Get database session using the dependency
+            db_gen = get_db_session()
+            db = await db_gen.__anext__()  # Get the session from the generator
+
+            try:
                 result = await db.execute(
-                    delete(Base.classes.sessions)
-                    .where(Base.classes.sessions.expires_at < cutoff_time)
+                    delete(Session)
+                    .where(Session.expires_at < cutoff_time)
                 )
                 await db.commit()
 
                 return result.rowcount
+            finally:
+                # Close the session properly
+                await db_gen.aclose()
         except Exception as e:
             print(f"Error cleaning up expired sessions in cron: {e}")
             return 0

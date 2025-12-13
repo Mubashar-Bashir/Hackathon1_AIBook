@@ -1,10 +1,16 @@
+import logging
+import traceback
 from fastapi import APIRouter, HTTPException, Depends, Request
 from typing import List, Optional
 from pydantic import BaseModel, Field
-from src.models.user import UserCreate, UserLogin, UserLoginResponse, UserProfileResponse, UserUpdate
+from src.models.user import UserCreate, UserLogin, UserLoginResponse, UserProfileResponse, UserUpdate, UserRegistrationResponse, UserProfile, LogoutResponse, BasicSuccessResponse
 from src.services.auth_service import auth_service
 from datetime import datetime
 import uuid
+from src.utils.performance_monitor import monitor_performance
+
+# Set up logging
+logger = logging.getLogger(__name__)
 
 
 # Additional models for password reset functionality
@@ -43,6 +49,7 @@ router = APIRouter(prefix="/api/auth", tags=["auth"])
     409: {"description": "User already exists", "model": ErrorResponse},
     500: {"description": "Internal server error", "model": ErrorResponse}
 })
+@monitor_performance("auth_register")
 async def register_user(user_data: UserRegistrationRequest):
     """Register a new user account with experience level information."""
     try:
@@ -82,19 +89,27 @@ async def register_user(user_data: UserRegistrationRequest):
                 detail="User with this email already exists"
             )
 
-        return UserRegistrationResponse(
-            user_id=result["user_id"],
+        # Create user profile object to match contract
+        user_profile = UserProfile(
+            id=result["user_id"],
             email=result["email"],
             name=result["name"],
             experience_level=result["experience_level"],
-            session_token=result["session_token"],
-            created_at=result["created_at"]
+            created_at=result["created_at"],
+            last_login=result["created_at"]  # Using created_at as initial last_login
+        )
+
+        return UserRegistrationResponse(
+            success=True,
+            user=user_profile,
+            session_token=result["session_token"]
         )
     except HTTPException:
         # Re-raise HTTP exceptions as-is
         raise
     except Exception as e:
-        print(f"Error in user registration endpoint: {e}")
+        logger.error(f"Error in user registration endpoint: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail="Internal server error during registration")
 
 @router.post("/login", response_model=UserLoginResponse, responses={
@@ -103,6 +118,7 @@ async def register_user(user_data: UserRegistrationRequest):
     401: {"description": "Invalid credentials", "model": ErrorResponse},
     500: {"description": "Internal server error", "model": ErrorResponse}
 })
+@monitor_performance("auth_login")
 async def login_user(login_data: UserLogin):
     """Authenticate a user and return a session token."""
     try:
@@ -118,19 +134,27 @@ async def login_user(login_data: UserLogin):
                 detail="Invalid email or password"
             )
 
-        return UserLoginResponse(
-            user_id=result["user_id"],
+        # Create user profile object to match contract
+        user_profile = UserProfile(
+            id=result["user_id"],
             email=result["email"],
             name=result["name"],
             experience_level=result["experience_level"],
-            session_token=result["session_token"],
-            created_at=result["created_at"]
+            created_at=result["created_at"],
+            last_login=datetime.utcnow()  # Set current time as last login
+        )
+
+        return UserLoginResponse(
+            success=True,
+            user=user_profile,
+            session_token=result["session_token"]
         )
     except HTTPException:
         # Re-raise HTTP exceptions as-is
         raise
     except Exception as e:
-        print(f"Error in user login endpoint: {e}")
+        logger.error(f"Error in user login endpoint: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail="Internal server error during login")
 
 @router.get("/profile", response_model=UserProfileResponse, responses={
@@ -139,6 +163,7 @@ async def login_user(login_data: UserLogin):
     404: {"description": "User not found", "model": ErrorResponse},
     500: {"description": "Internal server error", "model": ErrorResponse}
 })
+@monitor_performance("auth_get_profile")
 async def get_profile(request: Request):
     """Get the authenticated user's profile information."""
     try:
@@ -171,7 +196,8 @@ async def get_profile(request: Request):
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Error in get profile endpoint: {e}")
+        logger.error(f"Error in get profile endpoint: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail="Internal server error retrieving profile")
 
 @router.put("/profile", response_model=UserProfileResponse, responses={
@@ -181,6 +207,7 @@ async def get_profile(request: Request):
     404: {"description": "User not found", "model": ErrorResponse},
     500: {"description": "Internal server error", "model": ErrorResponse}
 })
+@monitor_performance("auth_update_profile")
 async def update_profile(request: Request, update_data: UserUpdate):
     """Update the authenticated user's profile information."""
     try:
@@ -216,15 +243,17 @@ async def update_profile(request: Request, update_data: UserUpdate):
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Error in update profile endpoint: {e}")
+        logger.error(f"Error in update profile endpoint: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail="Internal server error updating profile")
 
 
-@router.post("/logout", responses={
+@router.post("/logout", response_model=LogoutResponse, responses={
     200: {"description": "Successfully logged out"},
     401: {"description": "Unauthorized - invalid or expired session", "model": ErrorResponse},
     500: {"description": "Internal server error", "model": ErrorResponse}
 })
+@monitor_performance("auth_logout")
 async def logout_user(request: Request):
     """End the current user session."""
     try:
@@ -249,11 +278,12 @@ async def logout_user(request: Request):
             # to avoid leaking information about session existence
             pass
 
-        return {"success": True, "message": "Successfully logged out"}
+        return LogoutResponse(success=True, message="Successfully logged out")
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Error in logout endpoint: {e}")
+        logger.error(f"Error in logout endpoint: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail="Internal server error during logout")
 
 
@@ -262,6 +292,7 @@ async def logout_user(request: Request):
     401: {"description": "Unauthorized - invalid or expired session", "model": ErrorResponse},
     500: {"description": "Internal server error", "model": ErrorResponse}
 })
+@monitor_performance("auth_get_current_user")
 async def get_current_user_info(request: Request):
     """Retrieves information about the currently authenticated user (alias for /profile)."""
     try:
@@ -294,15 +325,17 @@ async def get_current_user_info(request: Request):
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Error in get current user endpoint: {e}")
+        logger.error(f"Error in get current user endpoint: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail="Internal server error retrieving user info")
 
 
-@router.post("/forgot-password", responses={
+@router.post("/forgot-password", response_model=BasicSuccessResponse, responses={
     200: {"description": "Password reset email sent if account exists"},
     400: {"description": "Invalid email format", "model": ErrorResponse},
     500: {"description": "Internal server error", "model": ErrorResponse}
 })
+@monitor_performance("auth_forgot_password")
 async def forgot_password(forgot_data: ForgotPasswordRequest):
     """Initiates password reset process by sending reset email."""
     try:
@@ -318,20 +351,22 @@ async def forgot_password(forgot_data: ForgotPasswordRequest):
         # 4. Send email with reset link
 
         # For now, return success to avoid leaking information about user existence
-        return {"success": True, "message": "If an account exists with this email, a password reset link has been sent"}
+        return BasicSuccessResponse(success=True, message="If an account exists with this email, a password reset link has been sent")
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Error in forgot password endpoint: {e}")
+        logger.error(f"Error in forgot password endpoint: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail="Internal server error during password reset request")
 
 
-@router.post("/reset-password", responses={
+@router.post("/reset-password", response_model=BasicSuccessResponse, responses={
     200: {"description": "Password reset successfully"},
     400: {"description": "Invalid token or password", "model": ErrorResponse},
     401: {"description": "Invalid or expired token", "model": ErrorResponse},
     500: {"description": "Internal server error", "model": ErrorResponse}
 })
+@monitor_performance("auth_reset_password")
 async def reset_password(reset_data: ResetPasswordRequest):
     """Resets user password using verification token."""
     try:
@@ -350,9 +385,10 @@ async def reset_password(reset_data: ResetPasswordRequest):
         # 5. Invalidate all existing sessions for the user
 
         # For now, return success
-        return {"success": True, "message": "Password reset successfully"}
+        return BasicSuccessResponse(success=True, message="Password reset successfully")
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Error in reset password endpoint: {e}")
+        logger.error(f"Error in reset password endpoint: {str(e)}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise HTTPException(status_code=500, detail="Internal server error during password reset")

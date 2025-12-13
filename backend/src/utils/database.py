@@ -41,17 +41,24 @@ async_session_local = sessionmaker(
 Base = declarative_base()
 
 async def get_db_session():
-    """Dependency function to get database session with debugging"""
+    """Dependency function to get database session with comprehensive error handling"""
     async with async_session_local() as session:
         logger.debug("Database session created")
         try:
             yield session
         except Exception as e:
-            logger.error(f"Database session error: {e}")
-            await session.rollback()
+            logger.error(f"Database session error: {str(e)}")
+            try:
+                await session.rollback()
+            except Exception as rollback_error:
+                logger.error(f"Error during rollback: {str(rollback_error)}")
             raise
         finally:
-            logger.debug("Database session closed")
+            try:
+                await session.close()
+                logger.debug("Database session closed")
+            except Exception as close_error:
+                logger.error(f"Error closing database session: {str(close_error)}")
 
 async def test_db_connection():
     """Test database connection with debugging"""
