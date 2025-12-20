@@ -1,0 +1,91 @@
+.personalizationToggle {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.toggleContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.toggleLabel {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 500;
+}
+
+.toggleCheckbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: relative;
+  cursor: pointer;
+  width: 50px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 24px;
+  transition: background-color 0.3s;
+  margin-right: 10px;
+}
+
+.toggleSlider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+.toggleCheckbox:checked + .toggleSlider {
+  background-color: #16b28f;
+}
+
+.toggleCheckbox:checked + .toggleSlider:before {
+  transform: translateX(26px);
+}
+
+.toggleText {
+  font-size: 14px;
+}
+
+.personalizationNotice {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.personalizationNotice a {
+  color: #16b28f;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.personalizationNotice a:hover {
+  text-decoration: underline;
+}
+
+.personalizationError {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #f5c6cb;
+  border-radius: 4px;
+  background-color: #f8d7da;
+  color: #721c24;
+  font-size: 14px;
+}

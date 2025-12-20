@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+title: Chapter 1 - The AI-Robot Brain (NVIDIA Isaac™)
 ---
 
 # Chapter 1: The AI-Robot Brain (NVIDIA Isaac™)

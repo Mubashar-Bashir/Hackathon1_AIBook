@@ -19,7 +19,8 @@ const Signup: React.FC = () => {
 
       // Call the signup function with the correct parameters
       // This will need to match the API endpoint parameters
-      const response = await fetch('/api/auth/register', {
+      const backendUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${backendUrl}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

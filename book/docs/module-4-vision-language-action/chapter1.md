@@ -1,5 +1,6 @@
 ---
 sidebar_position: 1
+title: Chapter 1 - Vision-Language-Action (VLA)
 ---
 
 # Chapter 1: Vision-Language-Action (VLA)

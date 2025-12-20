@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import styles from './PersonalizationToggle.module.css';
 
 interface PersonalizationToggleProps {
   content: string;
@@ -15,6 +16,18 @@ const PersonalizationToggle: React.FC<PersonalizationToggleProps> = ({
   const [isPersonalized, setIsPersonalized] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  // Mark as client-side after mounting
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Don't render anything during SSR to avoid auth context issues
+  if (!isClient) {
+    return null;
+  }
+
   const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
@@ -36,7 +49,8 @@ const PersonalizationToggle: React.FC<PersonalizationToggleProps> = ({
       setError(null);
 
       try {
-        const response = await fetch('/api/personalization/apply', {
+        const backendUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+        const response = await fetch(`${backendUrl}/api/personalization/apply`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -69,9 +83,10 @@ const PersonalizationToggle: React.FC<PersonalizationToggleProps> = ({
     }
   };
 
+  // Show login notice if not authenticated
   if (!isAuthenticated) {
     return (
-      <div className="personalization-notice">
+      <div className={styles.personalizationNotice}>
         <p>
           <a href="/login">Log in</a> to personalize this content based on your background.
         </p>
@@ -80,18 +95,18 @@ const PersonalizationToggle: React.FC<PersonalizationToggleProps> = ({
   }
 
   return (
-    <div className="personalization-toggle">
-      <div className="toggle-container">
-        <label className="toggle-label">
+    <div className={styles.personalizationToggle}>
+      <div className={styles.toggleContainer}>
+        <label className={styles.toggleLabel}>
           <input
             type="checkbox"
             checked={isPersonalized}
             onChange={handleToggle}
             disabled={isProcessing}
-            className="toggle-checkbox"
+            className={styles.toggleCheckbox}
           />
-          <span className="toggle-slider"></span>
-          <span className="toggle-text">
+          <span className={styles.toggleSlider}></span>
+          <span className={styles.toggleText}>
             {isProcessing
               ? 'Personalizing...'
               : isPersonalized
@@ -102,104 +117,10 @@ const PersonalizationToggle: React.FC<PersonalizationToggleProps> = ({
       </div>
 
       {error && (
-        <div className="personalization-error">
+        <div className={styles.personalizationError}>
           {error}
         </div>
       )}
-
-      <style jsx>{`
-        .personalization-toggle {
-          margin: 20px 0;
-          padding: 15px;
-          border: 1px solid #e0e0e0;
-          border-radius: 8px;
-          background-color: #f9f9f9;
-        }
-
-        .toggle-container {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .toggle-label {
-          display: flex;
-          align-items: center;
-          cursor: pointer;
-          user-select: none;
-          font-weight: 500;
-        }
-
-        .toggle-checkbox {
-          opacity: 0;
-          width: 0;
-          height: 0;
-        }
-
-        .toggle-slider {
-          position: relative;
-          cursor: pointer;
-          width: 50px;
-          height: 24px;
-          background-color: #ccc;
-          border-radius: 24px;
-          transition: background-color 0.3s;
-          margin-right: 10px;
-        }
-
-        .toggle-slider:before {
-          position: absolute;
-          content: "";
-          height: 18px;
-          width: 18px;
-          left: 3px;
-          bottom: 3px;
-          background-color: white;
-          border-radius: 50%;
-          transition: transform 0.3s;
-        }
-
-        .toggle-checkbox:checked + .toggle-slider {
-          background-color: #16b28f;
-        }
-
-        .toggle-checkbox:checked + .toggle-slider:before {
-          transform: translateX(26px);
-        }
-
-        .toggle-text {
-          font-size: 14px;
-        }
-
-        .personalization-notice {
-          margin: 20px 0;
-          padding: 15px;
-          border: 1px solid #e0e0e0;
-          border-radius: 8px;
-          background-color: #fff3cd;
-          color: #856404;
-        }
-
-        .personalization-notice a {
-          color: #16b28f;
-          text-decoration: none;
-          font-weight: bold;
-        }
-
-        .personalization-notice a:hover {
-          text-decoration: underline;
-        }
-
-        .personalization-error {
-          margin-top: 10px;
-          padding: 10px;
-          border: 1px solid #f5c6cb;
-          border-radius: 4px;
-          background-color: #f8d7da;
-          color: #721c24;
-          font-size: 14px;
-        }
-      `}</style>
     </div>
   );
 };

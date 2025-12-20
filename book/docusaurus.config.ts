@@ -29,7 +29,6 @@ const config: Config = {
 
   onBrokenLinks: 'warn',
 
-  clientModules: [require.resolve('./src/client-modules/Root.js')],
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -65,19 +64,21 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'Physical AI & Humanoid Robotics Textbook',
+      title: 'Physical AI Textbook',
       logo: {
         alt: 'Physical AI & Humanoid Robotics Textbook Logo',
         src: 'img/logo.svg',
       },
       items: [
         {to: '/', label: 'Home', position: 'left'},
+        {to: '/portfolio', label: 'Portfolio', position: 'left'},
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Books',
         },
+        {to: '/rag-monitor', label: 'RAG Monitor', position: 'right'},
         {to: '/signup', label: 'Sign Up', position: 'right'},
         {to: '/login', label: 'Login', position: 'right'},
         {

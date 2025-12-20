@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import styles from './TranslationToggle.module.css';
 
 interface TranslationToggleProps {
   content: string;
@@ -16,6 +17,18 @@ const TranslationToggle: React.FC<TranslationToggleProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentLang, setCurrentLang] = useState('en');
+  const [isClient, setIsClient] = useState(false);
+
+  // Mark as client-side after mounting
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Don't render anything during SSR to avoid auth context issues
+  if (!isClient) {
+    return null;
+  }
+
   const { isAuthenticated } = useAuth();
 
   useEffect(() => {
@@ -38,16 +51,16 @@ const TranslationToggle: React.FC<TranslationToggleProps> = ({
       setError(null);
 
       try {
-        const response = await fetch('http://localhost:8000/translate/chapter', {
+        const backendUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+        const response = await fetch(`${backendUrl}/api/translation/translate-chapter`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('accessToken') || ''}`
           },
           body: JSON.stringify({
-            text: content,
-            source_lang: 'en',
-            target_lang: 'ur'
+            chapter_content: content,
+            target_language: 'ur'
           })
         });
 
@@ -57,7 +70,7 @@ const TranslationToggle: React.FC<TranslationToggleProps> = ({
         }
 
         const data = await response.json();
-        onContentChange(data.translated_text);
+        onContentChange(data.translated_content);
         setIsTranslated(true);
         setCurrentLang('ur');
       } catch (err) {
@@ -72,16 +85,15 @@ const TranslationToggle: React.FC<TranslationToggleProps> = ({
       setError(null);
 
       try {
-        const response = await fetch('http://localhost:8000/translate/chapter', {
+        const response = await fetch('http://localhost:8000/api/translation/translate-chapter', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('accessToken') || ''}`
           },
           body: JSON.stringify({
-            text: content, // This is already the Urdu content
-            source_lang: 'ur',
-            target_lang: 'en'
+            chapter_content: content, // This is already the Urdu content
+            target_language: 'en'
           })
         });
 
@@ -91,7 +103,7 @@ const TranslationToggle: React.FC<TranslationToggleProps> = ({
         }
 
         const data = await response.json();
-        onContentChange(data.translated_text);
+        onContentChange(data.translated_content);
         setIsTranslated(false);
         setCurrentLang('en');
       } catch (err) {
@@ -105,7 +117,7 @@ const TranslationToggle: React.FC<TranslationToggleProps> = ({
 
   if (!isAuthenticated) {
     return (
-      <div className="translation-notice">
+      <div className={styles.translationNotice}>
         <p>
           <a href="/login">Log in</a> to translate this content to Urdu.
         </p>
@@ -114,18 +126,18 @@ const TranslationToggle: React.FC<TranslationToggleProps> = ({
   }
 
   return (
-    <div className="translation-toggle">
-      <div className="toggle-container">
-        <label className="toggle-label">
+    <div className={styles.translationToggle}>
+      <div className={styles.toggleContainer}>
+        <label className={styles.toggleLabel}>
           <input
             type="checkbox"
             checked={isTranslated}
             onChange={handleToggle}
             disabled={isProcessing}
-            className="toggle-checkbox"
+            className={styles.toggleCheckbox}
           />
-          <span className="toggle-slider"></span>
-          <span className="toggle-text">
+          <span className={styles.toggleSlider}></span>
+          <span className={styles.toggleText}>
             {isProcessing
               ? 'Translating...'
               : isTranslated
@@ -136,104 +148,10 @@ const TranslationToggle: React.FC<TranslationToggleProps> = ({
       </div>
 
       {error && (
-        <div className="translation-error">
+        <div className={styles.translationError}>
           {error}
         </div>
       )}
-
-      <style jsx>{`
-        .translation-toggle {
-          margin: 20px 0;
-          padding: 15px;
-          border: 1px solid #e0e0e0;
-          border-radius: 8px;
-          background-color: #f0f8ff;
-        }
-
-        .toggle-container {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .toggle-label {
-          display: flex;
-          align-items: center;
-          cursor: pointer;
-          user-select: none;
-          font-weight: 500;
-        }
-
-        .toggle-checkbox {
-          opacity: 0;
-          width: 0;
-          height: 0;
-        }
-
-        .toggle-slider {
-          position: relative;
-          cursor: pointer;
-          width: 50px;
-          height: 24px;
-          background-color: #ccc;
-          border-radius: 24px;
-          transition: background-color 0.3s;
-          margin-right: 10px;
-        }
-
-        .toggle-slider:before {
-          position: absolute;
-          content: "";
-          height: 18px;
-          width: 18px;
-          left: 3px;
-          bottom: 3px;
-          background-color: white;
-          border-radius: 50%;
-          transition: transform 0.3s;
-        }
-
-        .toggle-checkbox:checked + .toggle-slider {
-          background-color: #16b28f;
-        }
-
-        .toggle-checkbox:checked + .toggle-slider:before {
-          transform: translateX(26px);
-        }
-
-        .toggle-text {
-          font-size: 14px;
-        }
-
-        .translation-notice {
-          margin: 20px 0;
-          padding: 15px;
-          border: 1px solid #e0e0e0;
-          border-radius: 8px;
-          background-color: #fff3cd;
-          color: #856404;
-        }
-
-        .translation-notice a {
-          color: #16b28f;
-          text-decoration: none;
-          font-weight: bold;
-        }
-
-        .translation-notice a:hover {
-          text-decoration: underline;
-        }
-
-        .translation-error {
-          margin-top: 10px;
-          padding: 10px;
-          border: 1px solid #f5c6cb;
-          border-radius: 4px;
-          background-color: #f8d7da;
-          color: #721c24;
-          font-size: 14px;
-        }
-      `}</style>
     </div>
   );
 };

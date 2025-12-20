@@ -1,0 +1,44 @@
+---
+title: Translation Feature Demo
+sidebar_label: Translation Demo
+description: Demo page showing how the translation feature works
+---
+
+import TranslationToggle from '@site/src/components/TranslationToggle';
+
+# Translation Feature Demo
+
+This page demonstrates how the translation component is integrated into the textbook.
+
+## Sample Textbook Content
+
+This is a sample section of textbook content that can be translated. The Physical AI & Humanoid Robotics textbook covers advanced topics in artificial intelligence and robotics, including perception, planning, control, and human-robot interaction.
+
+<TranslationToggle
+  content={`This is a sample section of textbook content that can be translated. The Physical AI & Humanoid Robotics textbook covers advanced topics in artificial intelligence and robotics, including perception, planning, control, and human-robot interaction.`}
+  chapterId="translation-demo"
+  onContentChange={(newContent) => {/* This would update the content in a real implementation */}}
+/>
+
+### More Content
+
+Here's another paragraph that could benefit from translation. Advanced robotics systems require sophisticated algorithms for motion planning, obstacle avoidance, and task execution in dynamic environments.
+
+<TranslationToggle
+  content={`Here's another paragraph that could benefit from translation. Advanced robotics systems require sophisticated algorithms for motion planning, obstacle avoidance, and task execution in dynamic environments.`}
+  chapterId="translation-demo-2"
+  onContentChange={(newContent) => {/* This would update the content in a real implementation */}}
+/>
+
+## How It Works
+
+The translation component is designed to work seamlessly with the Docusaurus documentation system. When a user toggles the translation button:
+
+1. The component sends the content to the backend translation API
+2. The backend uses Gemini AI to translate the content to Urdu
+3. The translated content replaces the original content
+4. Users can toggle back to the original content at any time
+
+## Authentication Required
+
+Note that translation features require the user to be logged in to access the AI translation services.
