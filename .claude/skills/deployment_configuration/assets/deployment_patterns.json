@@ -1,0 +1,171 @@
+{
+  "environments": {
+    "development": {
+      "name": "Development",
+      "description": "Local development environment for coding and testing",
+      "variables": {
+        "DEBUG": "True",
+        "LOG_LEVEL": "DEBUG",
+        "DATABASE_URL": "sqlite:///dev.db",
+        "ENVIRONMENT": "development",
+        "TESTING": "True",
+        "FLASK_ENV": "development"
+      },
+      "scaling": {
+        "min_instances": 1,
+        "max_instances": 1,
+        "cpu_limit": "500m",
+        "memory_limit": "512Mi",
+        "autoscale": false
+      },
+      "security": {
+        "ssl_required": false,
+        "cors_allowed_origins": ["*"],
+        "debug_toolbar_enabled": true
+      }
+    },
+    "staging": {
+      "name": "Staging",
+      "description": "Pre-production environment for testing and validation",
+      "variables": {
+        "DEBUG": "False",
+        "LOG_LEVEL": "INFO",
+        "DATABASE_URL": "postgresql://staging_db",
+        "ENVIRONMENT": "staging",
+        "SENTRY_DSN": "set_in_env_var",
+        "ALLOWED_HOSTS": "staging.yourdomain.com"
+      },
+      "scaling": {
+        "min_instances": 1,
+        "max_instances": 2,
+        "cpu_limit": "1000m",
+        "memory_limit": "1Gi",
+        "autoscale": false
+      },
+      "security": {
+        "ssl_required": true,
+        "cors_allowed_origins": ["https://staging.yourdomain.com"],
+        "debug_toolbar_enabled": false
+      }
+    },
+    "production": {
+      "name": "Production",
+      "description": "Live production environment for end users",
+      "variables": {
+        "DEBUG": "False",
+        "LOG_LEVEL": "WARNING",
+        "DATABASE_URL": "postgresql://prod_db",
+        "ENVIRONMENT": "production",
+        "SECRET_KEY": "set_in_env_var",
+        "ALLOWED_HOSTS": "yourdomain.com,www.yourdomain.com",
+        "SENTRY_DSN": "set_in_env_var",
+        "SECURE_SSL_REDIRECT": "True",
+        "SECURE_HSTS_SECONDS": "31536000"
+      },
+      "scaling": {
+        "min_instances": 2,
+        "max_instances": 10,
+        "cpu_limit": "2000m",
+        "memory_limit": "4Gi",
+        "horizontal_pod_autoscaler": true,
+        "autoscale": true
+      },
+      "security": {
+        "ssl_required": true,
+        "cors_allowed_origins": ["https://yourdomain.com", "https://www.yourdomain.com"],
+        "debug_toolbar_enabled": false,
+        "hsts_enabled": true,
+        "csp_enabled": true
+      }
+    }
+  },
+  "deployment_platforms": {
+    "docker": {
+      "name": "Docker",
+      "description": "Containerized deployment using Docker",
+      "config_files": ["Dockerfile", "docker-compose.yml"],
+      "templates": {
+        "Dockerfile": {
+          "python_fastapi": "FROM python:3.11-slim\n\nWORKDIR /app\n\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\nCOPY . .\n\nEXPOSE 8000\n\nCMD [\"python\", \"-m\", \"uvicorn\", \"main:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]",
+          "python_fastapi_prod": "FROM python:3.11-slim\n\nWORKDIR /app\n\nCOPY requirements.txt .\nRUN pip install --no-cache-dir --production -r requirements.txt\n\nCOPY . .\n\nEXPOSE 8000\n\nCMD [\"gunicorn\", \"main:app\", \"--workers\", \"4\", \"--worker-class\", \"uvicorn.workers.UvicornWorker\", \"--bind\", \"0.0.0.0:8000\"]"
+        },
+        "docker-compose.yml": {
+          "development": "version: '3.8'\n\nservices:\n  web:\n    build:\n      context: .\n      dockerfile: Dockerfile\n    ports:\n      - \"8000:8000\"\n    environment:\n      - ENVIRONMENT=development\n      - DEBUG=True\n    volumes:\n      - .:/app\n    command: python -m uvicorn main:app --host 0.0.0.0 --port 8000 --reload\n\n  db:\n    image: postgres:13\n    environment:\n      POSTGRES_DB: textbook\n      POSTGRES_USER: user\n      POSTGRES_PASSWORD: password\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n    ports:\n      - \"5432:5432\"\n\nvolumes:\n  postgres_data:",
+          "production": "version: '3.8'\n\nservices:\n  web:\n    build:\n      context: .\n      dockerfile: Dockerfile.prod\n    ports:\n      - \"80:8000\"\n    environment:\n      - ENVIRONMENT=production\n      - DEBUG=False\n    depends_on:\n      - db\n    restart: unless-stopped\n    deploy:\n      replicas: 2\n      resources:\n        limits:\n          cpus: '2.0'\n          memory: 4G\n        reservations:\n          cpus: '0.5'\n          memory: 1G\n\n  db:\n    image: postgres:13-alpine\n    environment:\n      POSTGRES_DB: textbook\n      POSTGRES_USER: user\n      POSTGRES_PASSWORD: password\n    volumes:\n      - postgres_data:/var/lib/postgresql/data\n    restart: unless-stopped\n\nvolumes:\n  postgres_data:"
+        }
+      }
+    },
+    "kubernetes": {
+      "name": "Kubernetes",
+      "description": "Container orchestration using Kubernetes",
+      "config_files": ["deployment.yaml", "service.yaml", "ingress.yaml", "configmap.yaml", "secret.yaml"],
+      "templates": {
+        "deployment.yaml": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ai-textbook-app\n  labels:\n    app: ai-textbook\nspec:\n  replicas: {replicas}\n  selector:\n    matchLabels:\n      app: ai-textbook\n  template:\n    metadata:\n      labels:\n        app: ai-textbook\n    spec:\n      containers:\n      - name: ai-textbook\n        image: ai-textbook:latest\n        ports:\n        - containerPort: 8000\n        env:\n        - name: ENVIRONMENT\n          value: \"{environment}\"\n        - name: DEBUG\n          value: \"{debug}\"\n        envFrom:\n        - configMapRef:\n            name: ai-textbook-config\n        - secretRef:\n            name: ai-textbook-secrets\n        resources:\n          requests:\n            memory: \"{memory_limit}\"\n            cpu: \"{cpu_limit}\"\n          limits:\n            memory: \"{memory_limit}\"\n            cpu: \"{cpu_limit}\"\n        livenessProbe:\n          httpGet:\n            path: /health\n            port: 8000\n          initialDelaySeconds: 30\n          periodSeconds: 10\n        readinessProbe:\n          httpGet:\n            path: /health\n            port: 8000\n          initialDelaySeconds: 5\n          periodSeconds: 5",
+        "service.yaml": "apiVersion: v1\nkind: Service\nmetadata:\n  name: ai-textbook-service\nspec:\n  selector:\n    app: ai-textbook\n  ports:\n    - protocol: TCP\n      port: 80\n      targetPort: 8000\n  type: LoadBalancer",
+        "ingress.yaml": "apiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  name: ai-textbook-ingress\n  annotations:\n    nginx.ingress.kubernetes.io/rewrite-target: /\n    cert-manager.io/cluster-issuer: letsencrypt-prod\nspec:\n  tls:\n  - hosts:\n    - yourdomain.com\n    secretName: ai-textbook-tls\n  rules:\n  - host: yourdomain.com\n    http:\n      paths:\n      - path: /\n        pathType: Prefix\n        backend:\n          service:\n            name: ai-textbook-service\n            port:\n              number: 80"
+      }
+    },
+    "vercel": {
+      "name": "Vercel",
+      "description": "Serverless deployment platform",
+      "config_files": ["vercel.json", "package.json"],
+      "templates": {
+        "vercel.json": "{\n  \"version\": 2,\n  \"builds\": [\n    {\n      \"src\": \"backend/main.py\",\n      \"use\": \"@vercel/python\"\n    }\n  ],\n  \"routes\": [\n    {\n      \"src\": \"/(.*)\",\n      \"dest\": \"backend/main.py\"\n    }\n  ],\n  \"env\": {\n    \"ENVIRONMENT\": \"production\",\n    \"DEBUG\": \"false\"\n  }\n}"
+      }
+    },
+    "aws": {
+      "name": "AWS",
+      "description": "Amazon Web Services deployment",
+      "config_files": ["Dockerfile", "task-definition.json", "template.yaml"],
+      "templates": {
+        "task-definition.json": "{\n  \"family\": \"ai-textbook-task\",\n  \"networkMode\": \"awsvpc\",\n  \"requiresCompatibilities\": [\"FARGATE\"],\n  \"cpu\": \"256\",\n  \"memory\": \"512\",\n  \"executionRoleArn\": \"arn:aws:iam::ACCOUNT:role/ecsTaskExecutionRole\",\n  \"containerDefinitions\": [\n    {\n      \"name\": \"ai-textbook\",\n      \"image\": \"ACCOUNT.dkr.ecr.REGION.amazonaws.com/ai-textbook:latest\",\n      \"portMappings\": [\n        {\n          \"containerPort\": 8000,\n          \"protocol\": \"tcp\"\n        }\n      ],\n      \"environment\": [\n        {\n          \"name\": \"ENVIRONMENT\",\n          \"value\": \"production\"\n        }\n      ],\n      \"logConfiguration\": {\n        \"logDriver\": \"awslogs\",\n        \"options\": {\n          \"awslogs-group\": \"/ecs/ai-textbook\",\n          \"awslogs-region\": \"us-east-1\",\n          \"awslogs-stream-prefix\": \"ecs\"\n        }\n      }\n    }\n  ]\n}"
+      }
+    }
+  },
+  "ci_cd_templates": {
+    "github_actions": {
+      "name": "GitHub Actions",
+      "filename": ".github/workflows/deploy.yml",
+      "template": "name: Deploy\\n\\non:\\n  push:\\n    branches: [ main ]\\n  pull_request:\\n    branches: [ main ]\\n\\njobs:\\n  test:\\n    runs-on: ubuntu-latest\\n    steps:\\n    - uses: actions/checkout@v2\\n    \\n    - name: Set up Python\\n      uses: actions/setup-python@v2\\n      with:\\n        python-version: 3.11\\n    \\n    - name: Install dependencies\\n      run: |\\n        python -m pip install --upgrade pip\\n        pip install -r requirements.txt\\n        pip install pytest\\n    \\n    - name: Run tests\\n      run: |\\n        pytest\\n\\n  deploy:\\n    needs: test\\n    runs-on: ubuntu-latest\\n    if: github.ref == 'refs/heads/main'\\n    steps:\\n    - uses: actions/checkout@v2\\n\\n    - name: Set up Docker Buildx\\n      uses: docker/setup-buildx-action@v1\\n\\n    - name: Login to DockerHub\\n      uses: docker/login-action@v1\\n      with:\\n        username: ${{ secrets.DOCKERHUB_USERNAME }}\\n        password: ${{ secrets.DOCKERHUB_TOKEN }}\\n\\n    - name: Build and push\\n      uses: docker/build-push-action@v2\\n      with:\\n        context: .\\n        push: true\\n        tags: user/ai-textbook:latest\\n        tags: user/ai-textbook:${{ github.sha }}"
+    },
+    "gitlab_ci": {
+      "name": "GitLab CI",
+      "filename": ".gitlab-ci.yml",
+      "template": "stages:\\n  - test\\n  - deploy\\n\\nvariables:\\n  DOCKER_DRIVER: overlay2\\n\\ntest_job:\\n  stage: test\\n  image: python:3.11\\n  script:\\n    - pip install -r requirements.txt\\n    - pip install pytest\\n    - pytest\\n  artifacts:\\n    when: always\\n    reports:\\n      junit: junit_report.xml\\n\\ndeploy_job:\\n  stage: deploy\\n  image: docker:latest\\n  services:\\n    - docker:dind\\n  script:\\n    - docker build -t registry.gitlab.com/user/ai-textbook:latest .\\n    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY\\n    - docker push registry.gitlab.com/user/ai-textbook:latest\\n  only:\\n    - main"
+    }
+  },
+  "scaling_strategies": {
+    "horizontal": {
+      "description": "Scale by adding more instances",
+      "use_case": "Traffic spikes, variable load",
+      "implementation": "Kubernetes HPA, AWS Auto Scaling Groups"
+    },
+    "vertical": {
+      "description": "Scale by adding more resources to existing instances",
+      "use_case": "Consistent high load",
+      "implementation": "Increase CPU/RAM allocation"
+    },
+    "auto": {
+      "description": "Automatic scaling based on metrics",
+      "use_case": "Unpredictable load patterns",
+      "implementation": "Cloud provider auto-scaling services"
+    }
+  },
+  "monitoring_tools": [
+    "Prometheus + Grafana",
+    "Datadog",
+    "New Relic",
+    "AWS CloudWatch",
+    "Google Cloud Operations Suite"
+  ],
+  "security_best_practices": [
+    "Use environment variables for secrets",
+    "Implement HTTPS/SSL",
+    "Regular security scanning",
+    "Principle of least privilege",
+    "Network segmentation",
+    "Regular backups",
+    "Access logging",
+    "Intrusion detection"
+  ]
+}

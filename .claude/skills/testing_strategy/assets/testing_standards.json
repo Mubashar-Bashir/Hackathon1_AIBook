@@ -1,0 +1,175 @@
+{
+  "test_types": {
+    "unit": {
+      "description": "Test individual functions/components in isolation",
+      "coverage_target": 90,
+      "best_practices": [
+        "Test one thing at a time",
+        "Use mocks for external dependencies",
+        "Follow AAA pattern (Arrange, Act, Assert)",
+        "Keep tests fast and focused",
+        "Name tests descriptively",
+        "Test both positive and negative cases",
+        "Use parameterized tests for multiple inputs"
+      ],
+      "py_example": {
+        "framework": "pytest",
+        "template": "def test_[function_name]_[scenario]():\n    # Arrange\n    [setup test data]\n    \n    # Act\n    result = function_to_test(input)\n    \n    # Assert\n    assert result == expected_value"
+      }
+    },
+    "integration": {
+      "description": "Test interactions between components/modules",
+      "coverage_target": 80,
+      "best_practices": [
+        "Test real component interactions",
+        "Use test databases where applicable",
+        "Test API endpoints with real data",
+        "Test database operations",
+        "Test external service integrations",
+        "Test authentication and authorization flows",
+        "Test error handling between components"
+      ],
+      "py_example": {
+        "framework": "pytest",
+        "template": "# Integration test template\nfrom app.database import test_session\nfrom app.services import SomeService\n\ndef test_service_integration():\n    # Use test database\n    session = test_session()\n    service = SomeService(session)\n    \n    # Test actual integration\n    result = service.perform_operation()\n    \n    # Verify integration worked\n    assert result.success\n    assert session.query(SomeModel).count() > 0"
+      }
+    },
+    "e2e": {
+      "description": "Test complete user workflows",
+      "coverage_target": 70,
+      "best_practices": [
+        "Test critical user journeys",
+        "Use realistic test data",
+        "Run in environments similar to production",
+        "Test both happy path and error scenarios",
+        "Test different browsers/devices if applicable",
+        "Test performance under realistic load",
+        "Test accessibility features"
+      ],
+      "js_example": {
+        "framework": "Cypress",
+        "template": "describe('User login workflow', () => {\n  it('should allow user to login and access dashboard', () => {\n    // Visit login page\n    cy.visit('/login')\n    \n    // Fill in credentials\n    cy.get('[data-cy=username]').type('testuser')\n    cy.get('[data-cy=password]').type('password')\n    \n    // Submit form\n    cy.get('[data-cy=login-btn]').click()\n    \n    // Verify navigation to dashboard\n    cy.url().should('include', '/dashboard')\n    cy.get('[data-cy=welcome-message]').should('be.visible')\n  })\n})"
+      }
+    },
+    "performance": {
+      "description": "Test application performance under load",
+      "coverage_target": "N/A",
+      "best_practices": [
+        "Test response times under expected load",
+        "Test memory usage",
+        "Test concurrent user scenarios",
+        "Test database query performance",
+        "Test API rate limiting",
+        "Test caching effectiveness"
+      ]
+    },
+    "security": {
+      "description": "Test application security measures",
+      "coverage_target": "N/A",
+      "best_practices": [
+        "Test input validation",
+        "Test authentication mechanisms",
+        "Test authorization rules",
+        "Test data sanitization",
+        "Test secure communication",
+        "Test session management",
+        "Test for common vulnerabilities"
+      ]
+    }
+  },
+  "quality_metrics": {
+    "coverage": {
+      "minimum": 80,
+      "recommended": 90,
+      "excellent": 95,
+      "measurement": "Line coverage and branch coverage"
+    },
+    "mutation_score": {
+      "minimum": 60,
+      "recommended": 80,
+      "excellent": 90,
+      "measurement": "Mutation testing to verify test effectiveness"
+    },
+    "performance": {
+      "response_time": {
+        "api": "< 200ms",
+        "page_load": "< 3s",
+        "critical_resources": "< 1s"
+      },
+      "throughput": {
+        "minimum": "100 requests/second",
+        "recommended": "1000 requests/second"
+      },
+      "memory_usage": {
+        "per_request": "< 5MB",
+        "sustained_load": "Stable memory profile"
+      }
+    },
+    "reliability": {
+      "uptime": "> 99.9%",
+      "error_rate": "< 0.1%",
+      "recovery_time": "< 5 minutes"
+    }
+  },
+  "testing_frameworks": {
+    "python": {
+      "unit": ["pytest", "unittest"],
+      "integration": ["pytest", "requests", "testcontainers"],
+      "e2e": ["Selenium", "Playwright", "pytest-playwright"],
+      "performance": ["locust", "artillery"],
+      "security": ["bandit", "safety", "pip-audit"]
+    },
+    "javascript": {
+      "unit": ["Jest", "Mocha", "Jasmine"],
+      "integration": ["Jest", "Supertest", "Cypress"],
+      "e2e": ["Cypress", "Playwright", "Puppeteer"],
+      "performance": ["artillery", "k6"],
+      "security": ["npm audit", "snyk", "retire.js"]
+    },
+    "frontend": {
+      "react": ["Jest + React Testing Library", "Cypress", "React Hook Test Utilities"],
+      "vue": ["Vue Test Utils", "Jest", "Cypress"],
+      "angular": ["Karma", "Jasmine", "Protractor", "Cypress"]
+    }
+  },
+  "ci_cd_integration": {
+    "tools": ["GitHub Actions", "GitLab CI", "Jenkins", "CircleCI", "Travis CI"],
+    "trigger_events": ["push", "pull_request", "merge", "tag"],
+    "environments": ["development", "staging", "production"],
+    "quality_gates": {
+      "minimum_coverage": 80,
+      "maximum_flakiness": 5,
+      "performance_thresholds": {
+        "response_time": 200,
+        "error_rate": 0.1
+      }
+    }
+  },
+  "test_file_naming_conventions": {
+    "python": {
+      "unit": ["test_*.py", "*_test.py"],
+      "integration": ["test_integration_*.py", "integration_test_*.py"],
+      "location": ["tests/unit/", "tests/integration/", "tests/e2e/"]
+    },
+    "javascript": {
+      "unit": ["*.test.js", "*.spec.js", "*.test.ts", "*.spec.ts"],
+      "location": ["__tests__/", "src/__tests__/", "tests/"]
+    }
+  },
+  "mocking_strategies": {
+    "python": {
+      "unittest.mock": "Built-in mocking library",
+      "pytest-mock": "Pytest plugin for easier mocking",
+      "responses": "Mock HTTP responses",
+      "factory-boy": "Generate test data",
+      "faker": "Generate fake data"
+    },
+    "javascript": {
+      "jest.mock": "Built-in mocking in Jest",
+      "sinon": "Standalone mocking library",
+      "msw": "Mock service worker for API mocking",
+      "factory-girl": "Generate test data",
+      "faker-js": "Generate fake data"
+    }
+  }
+}

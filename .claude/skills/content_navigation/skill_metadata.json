@@ -1,0 +1,6 @@
+{
+  "name": "ContentNavigationSkill",
+  "version": "1.0.0",
+  "keywords": ["navigation", "table of contents", "chapter", "section", "find content", "locate"],
+  "description": "Helps users find specific chapters, sections, or content within the Physical AI & Humanoid Robotics textbook."
+}

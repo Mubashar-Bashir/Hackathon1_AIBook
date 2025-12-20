@@ -10,6 +10,8 @@ import uuid
 class AuthService:
     def __init__(self):
         self.session_timeout = 3600 * 24 * 7  # 1 week in seconds
+        # In-memory session store (in production, use Redis or database)
+        self.active_sessions = {}  # Maps session_token -> user_id
 
     def hash_password(self, password: str) -> str:
         """Hash a password with a salt."""
@@ -67,6 +69,9 @@ class AuthService:
                 # Generate session token
                 session_token = self.generate_session_token()
 
+                # Store session in memory (in production, use Redis or database)
+                self.active_sessions[session_token] = new_user.id
+
                 return {
                     "user_id": new_user.id,
                     "email": new_user.email,
@@ -94,6 +99,9 @@ class AuthService:
 
                 # Generate session token
                 session_token = self.generate_session_token()
+
+                # Store session in memory (in production, use Redis or database)
+                self.active_sessions[session_token] = user.id
 
                 return {
                     "user_id": user.id,
@@ -170,6 +178,41 @@ class AuthService:
         except Exception as e:
             print(f"Error updating user profile: {e}")
             return None
+
+    async def validate_session_token(self, session_token: str) -> Optional[UserResponse]:
+        """
+        Validate a session token and return the associated user.
+        """
+        try:
+            # Check if the session token exists in our active sessions
+            if session_token not in self.active_sessions:
+                return None
+
+            user_id = self.active_sessions[session_token]
+
+            # Get the user from the database using the user_id
+            user = await self.get_user_profile(user_id)
+
+            return user
+        except Exception as e:
+            print(f"Error validating session token: {e}")
+            return None
+
+    async def logout_user(self, session_token: str) -> bool:
+        """Logout a user by invalidating their session token."""
+        try:
+            # Remove the session from active sessions
+            if session_token in self.active_sessions:
+                del self.active_sessions[session_token]
+                print(f"Session {session_token[:8]}... invalidated")
+                return True
+            else:
+                # Session token doesn't exist, might already be logged out
+                print(f"Session {session_token[:8]}... not found, already invalidated?")
+                return True  # Return success anyway to not reveal information
+        except Exception as e:
+            print(f"Error during logout: {e}")
+            return False
 
 # Global instance
 auth_service = AuthService()

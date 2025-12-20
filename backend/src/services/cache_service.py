@@ -12,6 +12,7 @@ class CacheEntry(BaseModel):
     confidence: float
     timestamp: datetime
     expires_at: datetime
+    entry_type: str = "query"  # Added to distinguish between query and translation cache entries
 
 class CacheService:
     def __init__(self, default_ttl: int = 3600):  # 1 hour default TTL
@@ -63,11 +64,48 @@ class CacheService:
             sources=sources,
             confidence=confidence,
             timestamp=datetime.utcnow(),
-            expires_at=expires_at
+            expires_at=expires_at,
+            entry_type="query"
         )
 
         self._cache[query_hash] = entry
         return True
+
+    def set_translation(self, key: str, translation: str, ttl: int = None) -> bool:
+        """Cache a translation with a specific key."""
+        if ttl is None:
+            ttl = self.default_ttl
+
+        expires_at = datetime.utcnow() + timedelta(seconds=ttl)
+
+        entry = CacheEntry(
+            query_hash=key,
+            query_text="",  # Not used for translation cache
+            response=translation,
+            sources=[],
+            confidence=0.0,
+            timestamp=datetime.utcnow(),
+            expires_at=expires_at,
+            entry_type="translation"
+        )
+
+        self._cache[key] = entry
+        return True
+
+    def get_translation(self, key: str) -> Optional[str]:
+        """Get cached translation for a key if it exists and hasn't expired."""
+        if key in self._cache:
+            entry = self._cache[key]
+
+            # Check if entry has expired
+            if datetime.utcnow() > entry.expires_at:
+                del self._cache[key]
+                return None
+
+            # Return cached translation
+            return entry.response
+
+        return None
 
     def invalidate(self, query: str) -> bool:
         """Remove a specific query from cache."""

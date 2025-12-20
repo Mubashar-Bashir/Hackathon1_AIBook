@@ -1,0 +1,6 @@
+{
+  "name": "SecurityAuditSkill",
+  "version": "1.0.0",
+  "keywords": ["security audit", "vulnerability scanning", "security best practices", "authentication validation", "penetration testing", "security compliance"],
+  "description": "Performs security analysis of the Physical AI & Humanoid Robotics textbook application, identifying vulnerabilities and ensuring security best practices are followed."
+}

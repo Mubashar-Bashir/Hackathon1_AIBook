@@ -1,0 +1,6 @@
+{
+  "name": "TranslationManagementSkill",
+  "version": "1.0.0",
+  "keywords": ["translation management", "internationalization", "localization", "multilingual content", "locale management", "cultural adaptation"],
+  "description": "Manages multilingual content for the Physical AI & Humanoid Robotics textbook, handling translation workflows, locale management, and cultural adaptation for global accessibility."
+}

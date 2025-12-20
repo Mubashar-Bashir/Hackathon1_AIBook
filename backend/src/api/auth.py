@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends, Request
 from typing import List, Optional
 from pydantic import BaseModel, Field
-from ...models.user import UserCreate, UserLogin, UserLoginResponse, UserProfileResponse, UserUpdate
-from ...services.auth_service import auth_service
+from src.models.user import UserCreate, UserLogin, UserLoginResponse, UserProfileResponse, UserUpdate
+from src.services.auth_service import auth_service
 from datetime import datetime
 import uuid
 
@@ -123,30 +123,30 @@ async def login_user(login_data: UserLogin):
         print(f"Error in user login endpoint: {e}")
         raise HTTPException(status_code=500, detail="Internal server error during login")
 
+from src.api.auth_deps import get_current_user
+
 @router.get("/profile", response_model=UserProfileResponse, responses={
     200: {"description": "Profile retrieved successfully"},
     401: {"description": "Unauthorized", "model": ErrorResponse},
     404: {"description": "User not found", "model": ErrorResponse},
     500: {"description": "Internal server error", "model": ErrorResponse}
 })
-async def get_profile(request: Request):
+async def get_profile(current_user=Depends(get_current_user)):
     """Get the authenticated user's profile information."""
     try:
-        # This is a simplified implementation - in a real app, you'd validate the session token
-        # from the Authorization header or cookies
-        auth_header = request.headers.get("Authorization")
-        if not auth_header or not auth_header.startswith("Bearer "):
-            raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
+        if current_user is None:
+            raise HTTPException(status_code=401, detail="User not authenticated")
 
-        session_token = auth_header.split(" ")[1]
-
-        # In a real implementation, you would validate the session token against a database
-        # For this example, we'll skip validation and return a mock user
-        # This requires proper session management that would be implemented in a full system
-
-        # For now, we'll return an error indicating that proper session validation
-        # needs to be implemented
-        raise HTTPException(status_code=501, detail="Session validation not fully implemented in this example")
+        # Return the user profile data
+        return UserProfileResponse(
+            user_id=current_user.id,
+            email=current_user.email,
+            name=current_user.name,
+            background=current_user.background,
+            preferences=current_user.preferences if current_user.preferences else {},
+            created_at=current_user.created_at,
+            updated_at=current_user.updated_at
+        )
     except HTTPException:
         raise
     except Exception as e:
@@ -160,22 +160,60 @@ async def get_profile(request: Request):
     404: {"description": "User not found", "model": ErrorResponse},
     500: {"description": "Internal server error", "model": ErrorResponse}
 })
-async def update_profile(request: Request, update_data: UserUpdate):
+async def update_profile(current_user=Depends(get_current_user), update_data: UserUpdate = None):
     """Update the authenticated user's profile information."""
     try:
-        # This is a simplified implementation - in a real app, you'd validate the session token
-        # from the Authorization header or cookies
+        if current_user is None:
+            raise HTTPException(status_code=401, detail="User not authenticated")
+
+        # Update the user profile using the auth service
+        update_dict = update_data.dict(exclude_unset=True)
+        updated_user = await auth_service.update_user_profile(current_user.id, update_dict)
+
+        if not updated_user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        # Return the updated user profile data
+        return UserProfileResponse(
+            user_id=updated_user.id,
+            email=updated_user.email,
+            name=updated_user.name,
+            background=updated_user.background,
+            preferences=updated_user.preferences if updated_user.preferences else {},
+            created_at=updated_user.created_at,
+            updated_at=updated_user.updated_at
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Error in update profile endpoint: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error updating profile")
+
+
+@router.post("/logout", responses={
+    200: {"description": "Logout successful"},
+    401: {"description": "Unauthorized", "model": ErrorResponse},
+    500: {"description": "Internal server error", "model": ErrorResponse}
+})
+async def logout_user(request: Request):
+    """Logout the authenticated user and invalidate their session token."""
+    try:
+        # Validate the session token from the Authorization header
         auth_header = request.headers.get("Authorization")
         if not auth_header or not auth_header.startswith("Bearer "):
             raise HTTPException(status_code=401, detail="Missing or invalid authorization header")
 
         session_token = auth_header.split(" ")[1]
 
-        # For this example, we'll use a mock user ID
-        # In a real implementation, you would look up the user ID from the session token
-        raise HTTPException(status_code=501, detail="Session validation not fully implemented in this example")
+        # Attempt to logout the user (invalidate session)
+        success = await auth_service.logout_user(session_token)
+
+        if success:
+            return {"message": "Successfully logged out"}
+        else:
+            raise HTTPException(status_code=500, detail="Error during logout process")
     except HTTPException:
         raise
     except Exception as e:
-        print(f"Error in update profile endpoint: {e}")
-        raise HTTPException(status_code=500, detail="Internal server error updating profile")
+        print(f"Error in logout endpoint: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error during logout")

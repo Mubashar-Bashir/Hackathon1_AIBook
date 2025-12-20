@@ -1,0 +1,6 @@
+{
+  "name": "AccessibilityCheckerSkill",
+  "version": "1.0.0",
+  "keywords": ["accessibility", "a11y", "wcag", "compliance", "testing", "inclusion", "screen reader", "keyboard navigation"],
+  "description": "Checks UI components and interfaces for accessibility compliance according to WCAG 2.1 standards, ensuring inclusive design for all users."
+}

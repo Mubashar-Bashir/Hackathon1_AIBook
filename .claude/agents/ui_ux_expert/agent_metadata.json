@@ -1,0 +1,7 @@
+{
+  "name": "UIUXExpertAgent",
+  "version": "1.0.0",
+  "keywords": ["UI/UX", "design", "components", "frontend", "user experience", "interface design", "accessibility", "responsive design"],
+  "description": "Specializes in UI/UX design for the Physical AI & Humanoid Robotics textbook project, focusing on creating intuitive, accessible, and responsive user interfaces.",
+  "capabilities": ["interface design", "component creation", "accessibility compliance", "responsive layouts", "user research", "prototyping"]
+}

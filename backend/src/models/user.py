@@ -19,6 +19,9 @@ class User:
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
     preferences = Column(Text)  # JSON string for user preferences
 
+    # Relationship
+    chat_sessions = relationship("ChatSession", back_populates="user")
+
 # Pydantic models for API requests/responses
 class UserBase(BaseModel):
     email: str

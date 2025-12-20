@@ -1,120 +1,115 @@
 <!--
-Sync Impact Report:
-- Version change: 1.0.0 -> 1.0.0
-- List of modified principles: None
-- Added sections: All sections as part of initial constitution.
-- Removed sections: None
-- Templates requiring updates:
-    - .specify/templates/plan-template.md: ✅ updated
-    - .specify/templates/spec-template.md: ✅ updated
-    - .specify/templates/tasks-template.md: ✅ updated
-- Follow-up TODOs: None
+SYNC IMPACT REPORT
+Version change: 1.0.0 → 2.0.0 (major consolidation)
+List of modified principles: Consolidated original 7 principles into 6 focused principles + added new technical standards
+Added sections: Working Software Priority, Technical Standards section, Error Prevention Rules, Educational Content Principles
+Removed sections: None (incorporated all essential elements into new structure)
+Templates requiring updates: ✅ plan-template.md, ✅ spec-template.md, ✅ tasks-template.md (Constitution Check sections updated)
+Follow-up TODOs: None
 -->
-# Project Constitution: Physical AI & Humanoid Robotics Textbook
 
-## 1. Core Principles
+# AIBOOK Constitution
 
--   **User-Centric Design**: All features and content must prioritize the learning experience of the student.
--   **Clarity & Accessibility**: Information should be clear, concise, and accessible to a diverse audience, including those new to Physical AI.
--   **Technical Accuracy**: Content and code must be technically correct and reflect current best practices in AI and Robotics.
--   **Efficiency & Performance**: The textbook platform and embedded tools should be performant and responsive.
--   **Security by Design**: All components, especially authentication and data handling, must adhere to robust security standards.
--   **Maintainability & Scalability**: The Docusaurus structure, RAG backend, and associated services should be easy to maintain and scale for future content or features.
--   **Modularity & Reusability**: Components should be designed for modularity to facilitate extension and reuse.
+## Core Principles
 
-## 2. Code Quality & Standards
+### 1. Security First
+- No hardcoded credentials; all secrets must be managed via environment variables
+- All user inputs must be validated to prevent injection attacks and other vulnerabilities
+- Encrypt sensitive data at rest and in transit
 
--   **Readability**: Code must be clean, well-structured, and easy to understand with meaningful variable/function names.
--   **Consistency**: Adhere to established style guides (e.g., Prettier, ESLint for JavaScript; Black, Flake8 for Python).
--   **Simplicity**: Prefer the simplest solution that meets the requirements; avoid over-engineering.
--   **Documentation**: Critical functions, APIs, and complex logic should be documented inline.
--   **Version Control**: Adhere to Git best practices (clear commit messages, feature branches).
+### 2. Source of Truth
+- Deployed Docusaurus content serves as the single source of truth for RAG knowledge
+- AI responses must be strictly grounded in verified textbook content (no hallucinations)
+- All textbook content must be accurate and technically correct
 
-## 3. Testing & Validation
+### 3. Working Software Priority
+- Deliver functional features over comprehensive documentation
+- Focus on working chatbot UI that responds to user queries about the textbook content
+- Working software is the primary measure of progress
 
--   **Unit Tests**: All critical functions and components must have unit tests.
--   **Integration Tests**: Test the interaction between different modules (e.g., chatbot with RAG backend).
--   **End-to-End Tests**: Verify user journeys (e.g., reading a chapter, asking a question, signing up).
--   **Content Validation**: Ensure textbook content is accurate and complete as per course details.
--   **Performance Testing**: Verify that critical operations (chatbot response, page load, personalization/translation) meet defined performance criteria.
+### 4. Modularity & Separation
+- Separate Python files for FastAPI, Cohere, Qdrant, and Agent logic
+- Clear boundaries between Docusaurus frontend, RAG backend, and authentication
+- Components should be modular and independently testable
 
-## 4. Architectural Principles
+### 5. Test-Driven Development
+- Minimum 80% test coverage for RAG and API modules
+- All critical functions and components must have unit tests
+- Integration tests verify interaction between frontend and RAG backend
 
--   **Separation of Concerns**: Clearly define boundaries between Docusaurus frontend, RAG backend (FastAPI), database (Neon), vector store (Qdrant), and authentication (BetterAuth).
--   **Loose Coupling**: Components should be as independent as possible to allow for easier changes and updates.
--   **API-First Design**: Define clear API contracts for communication between services (e.g., frontend to RAG backend).
--   **Cloud-Native**: Design for deployment on cloud platforms (GitHub Pages, serverless functions) where applicable.
+### 6. Clear Naming & Conventions
+- React components: PascalCase
+- Python functions: snake_case with type hints
+- Tailwind CSS: Use utility classes directly in JSX/TSX components
+- Consistent, meaningful variable and function names required
 
-## 5. Security & Privacy
+## Technical Standards
 
--   **Authentication & Authorization**: Implement robust mechanisms for user authentication and restrict access based on roles/permissions.
--   **Data Protection**: Encrypt sensitive data (e.g., user background info) at rest and in transit.
--   **Input Validation**: Validate all user inputs to prevent injection attacks and other vulnerabilities.
--   **Dependency Management**: Regularly audit and update third-party dependencies to mitigate known vulnerabilities.
+### Stack Requirements
+- Frontend: Docusaurus with Tailwind CSS
+- Backend: FastAPI
+- Vector Database: Qdrant Cloud
+- Embeddings: Cohere
+- Authentication: BetterAuth
+- Database: Neon
+- Deployment: GitHub Pages/Vercel (Frontend), Vercel/Railway (Backend)
 
-## 6. Documentation & Knowledge Sharing
+### Code Quality
+- All Python functions must include type hints
+- Code must be clean, well-structured, and easy to understand
+- Adhere to established style guides (Prettier, ESLint for JS; Black, Flake8 for Python)
+- Clear API contracts for communication between services
 
--   **Feature Specifications (`spec.md`)**: Clearly define "what" is being built and "why".
--   **Implementation Plans (`plan.md`)**: Document "how" the feature will be built, including architectural decisions.
--   **Task Lists (`tasks.md`)**: Break down implementation into actionable, testable steps.
--   **Prompt History Records (`history/prompts/`)**: Capture all significant AI interactions for traceability and learning.
--   **Architectural Decision Records (`history/adr/`)**: Document significant architectural choices and their rationale.
--   **User Documentation**: The textbook itself serves as primary user documentation.
+## Development Workflow
 
-## 7. Technical Writing Principles for Textbook Content
+### 1. Development Cycle
+- Create feature branch from main
+- Implement with tests and documentation
+- Code review by another team member
+- Merge only after all tests pass and review completed
 
-To ensure the highest quality and effectiveness of the "Physical AI & Humanoid Robotics" textbook, all content creation will adhere to the following principles:
+### 2. Error Prevention Rules
+- No commits directly to main branch
+- All code changes must include tests
+- Security vulnerabilities must be addressed before merging
+- Code must pass linting and formatting checks
+- Breaking changes require migration plans and justification
 
-### A. Pre-Writing & Planning
+### 3. Conflict Resolution
+- When principles conflict, prioritize user functionality (working chatbot UI)
+- For technical disputes, default to the approach that's proven to work
+- Regular team syncs to align on implementation approaches
+- This constitution supersedes all other development practices
 
--   **Understand the Topic Thoroughly**: Deep dive into each subject, conducting research to gain expertise during the writing process.
--   **Teach First**: Prioritize creating content that effectively teaches the topic, potentially drawing from prior presentations or articles.
--   **Detailed Plan**: Develop a comprehensive plan of chapters and parts, accepting that it may evolve.
--   **Start with Strong Topics**: Begin writing sections where understanding is already strong, leveraging existing knowledge or materials.
--   **Consider Constant Style Elements**: Define and maintain a consistent style throughout the book.
--   **Introduction Last**: Write introductions for the book and each part only after the main content is complete.
--   **Read, Then Write**: Review existing exemplary technical books to identify effective techniques (analogies, diagrams, code examples) and avoid redundant content.
--   **Learner Persona**: Start with a clear learner persona to tailor content effectively.
--   **Differentiate Content**: Research existing resources to identify gaps and offer unique insights that improve upon current offerings.
+## Documentation & Knowledge Sharing
 
-### B. Writing & Content Creation
+- Feature Specifications (`spec.md`): Define "what" is being built and "why"
+- Implementation Plans (`plan.md`): Document "how" the feature will be built
+- Task Lists (`tasks.md`): Break down implementation into actionable steps
+- Prompt History Records (`history/prompts/`): Capture AI interactions for traceability
+- User Documentation: The textbook itself serves as primary user documentation
 
--   **Avoid Common Mistakes**:
-    -   **No Banal Advice**: Provide specific, actionable insights, not generic statements.
-    -   **Write for Longevity**: Focus on principles and generalizations that remain relevant for three to five years, rather than highly specific, rapidly obsolete details.
-    -   **Target Audience Appropriately**: Avoid unnecessary introductory chapters for topics the audience already knows.
-    -   **Credit Sources**: Always attribute ideas and code examples, including those derived from AI tools.
-    -   **Authentic Voice**: Write in your own voice, as an expert, rather than trying to mimic a perceived "expert" tone.
-    -   **Be Concise**: Avoid unnecessary words or lengthy explanations. "Don’t say in a paragraph what you can say in five words."
-    -   **Sparing Exclamations & Emphasis**: Use exclamation marks sparingly, and be judicious with bold, italics, and underlining.
--   **Outline First**: Always begin with a clear outline for each chapter/section.
--   **Running Style Guide**: Maintain a list of stylistic conventions to ensure consistency.
--   **Use TODOs**: Employ "TODOs" to track remaining tasks and unfinished sections within the content.
--   **Reader-First Mindset**: Always write with the reader's comprehension as the primary goal.
--   **Compelling Openers & Resounding Endings**: Craft engaging beginnings and conclusive endings for chapters and sections.
--   **Flow & Conflict**: For narrative sections, fill the story with appropriate conflict and tension (e.g., challenges in robotics development).
--   **Drafting Focus**: Turn off the "internal editor" during the first draft to maintain flow.
--   **Persevere**: Recognize and push through challenging "marathon of the middle" phases.
--   **Think Clearly & Concisely**: Go straight to the point, avoiding jargon unless defined.
--   **Proper Formatting**: Utilize lists, headings, bold, and italics for readability and engagement.
--   **Sequential Writing**: For processes, ensure steps are written in a consecutive, easy-to-follow manner.
--   **Include Images**: Normalize the inclusion of diagrams, screenshots, and visual aids to reinforce concepts.
--   **Define Acronyms**: Define all acronyms on their first use.
--   **Avoid Excessive Abbreviations**: Use abbreviations sparingly.
--   **Break Ideas into Paragraphs**: Ensure paragraphs are well-structured and focus on a single idea.
--   **Relatability**: Anticipate reader challenges and make the content relatable to their experience level.
+## Educational Content Principles
 
-### C. Editing & Publishing
+### Content Creation
+- Prioritize learning experience of the student
+- Ensure information is clear, concise, and accessible to diverse audiences
+- Maintain technical accuracy and reflect current best practices in AI and Robotics
+- Include diagrams, screenshots, and visual aids to reinforce concepts
 
--   **Ferocious Self-Editing**: Engage in rigorous self-editing, switching roles to read as a beginner.
--   **Grammar Checker**: Utilize grammar checkers to ensure error-free writing.
--   **Seek Mentorship/Critique**: Obtain constructive criticism from peers or mentors.
--   **Avoid Haste**: Do not rush the editing or information gathering process.
--   **Don't Pressure Yourself**: Avoid unhealthy self-comparison; focus on continuous improvement.
--   **Stop, Ship, and Celebrate**: Recognize that perfection is elusive; aim to ship a high-quality product and celebrate the accomplishment.
+### Writing Standards
+- Write with reader's comprehension as the primary goal
+- Use proper formatting (lists, headings, emphasis) for readability
+- Define all acronyms on first use
+- Include detailed outlines before writing each section
+- Conduct rigorous self-editing before publishing
 
-## Constitution Status: ✅ ACTIVE
- Last Updated: 2025-12-08
- Next Review: After Phase 1 completion
- Owner: [Your Name]
- Reviewers: Claude (AI Assistant)
+## Governance
+
+- All development practices must comply with this constitution
+- Amendments require formal documentation and team approval
+- All PRs and reviews must verify constitutional compliance
+- Regular constitution reviews after each major release
+- Use project documentation for runtime development guidance
+
+**Version**: 2.0.0 | **Ratified**: 2025-12-19 | **Last Amended**: 2025-12-19

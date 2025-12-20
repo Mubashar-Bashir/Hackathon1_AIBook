@@ -1,0 +1,6 @@
+{
+  "name": "RAGQuerySkill",
+  "version": "1.0.0",
+  "keywords": ["RAG", "query", "search", "vector", "retrieval", "augmented generation", "knowledge base"],
+  "description": "Performs semantic search and retrieval-augmented generation using vector embeddings to answer questions based on the Physical AI & Humanoid Robotics textbook content."
+}

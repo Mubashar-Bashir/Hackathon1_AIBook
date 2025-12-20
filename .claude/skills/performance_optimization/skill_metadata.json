@@ -1,0 +1,6 @@
+{
+  "name": "PerformanceOptimizationSkill",
+  "version": "1.0.0",
+  "keywords": ["performance optimization", "bundle size", "loading optimization", "caching", "efficiency", "speed", "resource management"],
+  "description": "Analyzes and optimizes application performance for the Physical AI & Humanoid Robotics textbook project, focusing on bundle size, loading times, and resource efficiency."
+}

@@ -1,0 +1,6 @@
+{
+  "name": "ContentStructureSkill",
+  "version": "1.0.0",
+  "keywords": ["content structure", "textbook organization", "learning modules", "chapter planning", "section organization", "curriculum"],
+  "description": "Helps organize textbook content into proper learning modules with appropriate structure, learning objectives, and pedagogical flow for the Physical AI & Humanoid Robotics textbook."
+}

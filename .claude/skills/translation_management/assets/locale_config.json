@@ -1,0 +1,236 @@
+{
+  "supported_locales": {
+    "en": {
+      "name": "English",
+      "direction": "ltr",
+      "cultural_considerations": [
+        "Default academic language for technical content",
+        "Use formal tone in educational context"
+      ],
+      "date_format": "MM/DD/YYYY",
+      "number_format": "1,234.56",
+      "pluralization_rules": {
+        "one": "n is 1",
+        "other": "everything else"
+      }
+    },
+    "ur": {
+      "name": "Urdu",
+      "direction": "rtl",
+      "cultural_considerations": [
+        "Right-to-left reading direction",
+        "Use appropriate honorifics in educational context",
+        "Consider religious sensitivities in examples",
+        "Maintain formal respectful tone"
+      ],
+      "date_format": "DD/MM/YYYY",
+      "number_format": "1,234.56",
+      "pluralization_rules": {
+        "one": "n is 1",
+        "other": "everything else"
+      }
+    },
+    "es": {
+      "name": "Spanish",
+      "direction": "ltr",
+      "cultural_considerations": [
+        "Use appropriate formal/informal language (usted/tú)",
+        "Consider regional variations (Latin American vs. European Spanish)",
+        "Be mindful of gender-neutral language trends"
+      ],
+      "date_format": "DD/MM/YYYY",
+      "number_format": "1.234,56",
+      "pluralization_rules": {
+        "one": "n is 1",
+        "other": "everything else"
+      }
+    },
+    "fr": {
+      "name": "French",
+      "direction": "ltr",
+      "cultural_considerations": [
+        "Use formal language in educational context",
+        "Consider regional variations (Canadian French, etc.)",
+        "Accented characters must be preserved"
+      ],
+      "date_format": "DD/MM/YYYY",
+      "number_format": "1 234,56",
+      "pluralization_rules": {
+        "one": "n is 1",
+        "other": "everything else"
+      }
+    },
+    "de": {
+      "name": "German",
+      "direction": "ltr",
+      "cultural_considerations": [
+        "Compound words are common and should be preserved",
+        "Formal language (Sie) required in educational context",
+        "Special characters like ä, ö, ü, ß must be preserved"
+      ],
+      "date_format": "DD.MM.YYYY",
+      "number_format": "1.234,56",
+      "pluralization_rules": {
+        "one": "n is 1",
+        "other": "everything else"
+      }
+    },
+    "zh": {
+      "name": "Chinese",
+      "direction": "ltr",
+      "cultural_considerations": [
+        "Distinguish between Simplified and Traditional characters",
+        "Tone and context are critical for meaning",
+        "Technical terms may have specific translations"
+      ],
+      "date_format": "YYYY-MM-DD",
+      "number_format": "1,234.56",
+      "pluralization_rules": {
+        "other": "no plural distinction"
+      }
+    }
+  },
+  "translation_workflows": {
+    "automated": {
+      "steps": [
+        "content_extraction",
+        "machine_translation",
+        "grammar_check",
+        "quality_assessment"
+      ],
+      "quality_threshold": 0.7,
+      "tools": [
+        "Google Translate API",
+        "DeepL API",
+        "Microsoft Translator"
+      ]
+    },
+    "human_reviewed": {
+      "steps": [
+        "content_extraction",
+        "machine_translation",
+        "human_review",
+        "proofreading",
+        "quality_assurance"
+      ],
+      "quality_threshold": 0.95,
+      "tools": [
+        "Translation management system",
+        "Human translators",
+        "Quality assurance tools"
+      ]
+    },
+    "hybrid": {
+      "steps": [
+        "content_extraction",
+        "machine_translation",
+        "human_post_edit",
+        "automated_quality_check",
+        "final_human_review"
+      ],
+      "quality_threshold": 0.9,
+      "tools": [
+        "Machine translation API",
+        "Computer-assisted translation tools",
+        "Quality estimation models"
+      ]
+    }
+  },
+  "cultural_adaptation_rules": {
+    "technical_terms": {
+      "preserve_in_source": [
+        "AI",
+        "robotics",
+        "algorithm",
+        "neural network",
+        "machine learning",
+        "deep learning",
+        "computer vision",
+        "natural language processing",
+        "reinforcement learning"
+      ],
+      "transliterate": [
+        "specific_technical_terms_that_have_local_equivalents"
+      ],
+      "translate": [
+        "educational_explanations",
+        "descriptive_terms"
+      ]
+    },
+    "examples_adaptation": {
+      "cultural_context": {
+        "en_to_ur": {
+          "adapt_examples": true,
+          "preserve_core_concept": true,
+          "considerations": [
+            "Use culturally appropriate examples",
+            "Avoid references to non-halal concepts",
+            "Consider family and community values"
+          ]
+        },
+        "en_to_es": {
+          "adapt_examples": true,
+          "preserve_core_concept": true,
+          "considerations": [
+            "Use regionally appropriate examples",
+            "Consider family structure and values",
+            "Avoid culturally insensitive references"
+          ]
+        }
+      }
+    },
+    "date_time_formatting": {
+      "locale_specific": true,
+      "timezone_considerations": true
+    },
+    "number_formatting": {
+      "decimal_separator": true,
+      "thousands_separator": true,
+      "currency_considerations": true
+    }
+  },
+  "translation_memory": {
+    "glossary_terms": {
+      "AI": {
+        "en": "Artificial Intelligence",
+        "ur": "مصنوعی ذہانت",
+        "es": "Inteligencia Artificial",
+        "fr": "Intelligence Artificielle"
+      },
+      "robotics": {
+        "en": "Robotics",
+        "ur": "روبوٹکس",
+        "es": "Robótica",
+        "fr": "Robotique"
+      },
+      "humanoid": {
+        "en": "Humanoid",
+        "ur": "انسان نما",
+        "es": "Humanoide",
+        "fr": "Androïde"
+      }
+    },
+    "common_phrases": {
+      "welcome_message": {
+        "en": "Welcome to the Physical AI & Humanoid Robotics Textbook",
+        "ur": "مصنوعی ذہانت اور ہیومنوائڈ روبوٹکس کی کتاب میں خوش آمدید",
+        "es": "Bienvenido al libro de texto de IA Física y Robótica Humanoide",
+        "fr": "Bienvenue dans le manuel d'IA Physique et de Robotique Humanïode"
+      }
+    }
+  },
+  "quality_metrics": {
+    "accuracy": {
+      "weight": 0.5,
+      "measurement": "BLEU, METEOR, or human evaluation scores"
+    },
+    "fluency": {
+      "weight": 0.3,
+      "measurement": "grammar, syntax, and naturalness"
+    },
+    "cultural_appropriateness": {
+      "weight": 0.2,
+      "measurement": "cultural sensitivity and adaptation"
+    }
+  }
+}

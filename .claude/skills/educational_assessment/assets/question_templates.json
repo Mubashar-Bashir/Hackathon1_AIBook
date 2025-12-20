@@ -1,0 +1,109 @@
+{
+  "multiple_choice": [
+    "What is the primary characteristic of {topic}?",
+    "Which of the following best describes {topic}?",
+    "In the context of {topic}, which statement is true?",
+    "What is the main purpose of {topic}?",
+    "Which component is essential for {topic}?",
+    "What distinguishes {topic} from traditional approaches?",
+    "In {topic}, what role does _______ play?",
+    "Which of these is a key challenge in implementing {topic}?",
+    "What are the primary applications of {topic}?",
+    "How does {topic} improve upon previous methods?"
+  ],
+  "short_answer": [
+    "Explain the concept of {topic} in your own words.",
+    "Describe the key features of {topic}.",
+    "What are the main challenges in {topic}?",
+    "How does {topic} differ from traditional approaches?",
+    "List the primary applications of {topic}.",
+    "Compare and contrast {topic} with alternative methods.",
+    "Analyze the impact of {topic} on the field of robotics.",
+    "Evaluate the effectiveness of {topic} in practical applications.",
+    "Design a simple implementation of {topic}.",
+    "Critique the limitations of current {topic} approaches."
+  ],
+  "true_false": [
+    "{topic} requires specialized hardware. (True/False)",
+    "The primary goal of {topic} is to improve computational efficiency. (True/False)",
+    "{topic} is only applicable to robotics applications. (True/False)",
+    "Learning in {topic} systems requires labeled training data. (True/False)",
+    "Physical AI systems must be embodied to be effective. (True/False)",
+    "Humanoid robots are the only form of physical AI. (True/False)",
+    "Dynamic balance is essential for humanoid locomotion. (True/False)",
+    "All humanoid robots use the same control architecture. (True/False)"
+  ],
+  "fill_in_blank": [
+    "The process of {topic} involves _______.",
+    "_______ is the primary challenge in implementing {topic}.",
+    "In {topic}, the term _______ refers to _______.",
+    "The main advantage of {topic} is _______.",
+    "_______ developed the foundational theories of {topic}.",
+    "The three key components of {topic} are _______, _______, and _______."
+  ],
+  "essay": [
+    "Discuss the implications of {topic} for the future of robotics.",
+    "Analyze the ethical considerations surrounding {topic}.",
+    "Evaluate the current state of research in {topic} and identify future directions.",
+    "Compare different approaches to {topic} and argue for the most promising one.",
+    "Explain how {topic} could be applied to solve real-world problems."
+  ],
+  "problem_solving": [
+    "Given a scenario where {topic} is needed, design a solution.",
+    "Calculate the optimal parameters for implementing {topic} in a given environment.",
+    "Troubleshoot the following issue with {topic}: _______.",
+    "Optimize the performance of {topic} given these constraints: _______."
+  ],
+  "difficulty_levels": {
+    "high_school": {
+      "recall": 0.6,
+      "comprehension": 0.3,
+      "application": 0.1
+    },
+    "undergraduate": {
+      "recall": 0.3,
+      "comprehension": 0.4,
+      "application": 0.3
+    },
+    "graduate": {
+      "recall": 0.1,
+      "comprehension": 0.2,
+      "application": 0.4,
+      "analysis": 0.3
+    }
+  },
+  "grading_criteria": {
+    "multiple_choice": {
+      "correct": 1,
+      "incorrect": 0
+    },
+    "short_answer": {
+      "excellent": {
+        "score": 5,
+        "criteria": "Complete, accurate, and clearly explained with examples"
+      },
+      "good": {
+        "score": 4,
+        "criteria": "Mostly complete and accurate with minor errors"
+      },
+      "satisfactory": {
+        "score": 3,
+        "criteria": "Basic understanding with some gaps in explanation"
+      },
+      "needs_improvement": {
+        "score": 2,
+        "criteria": "Partial understanding with significant gaps"
+      },
+      "inadequate": {
+        "score": 1,
+        "criteria": "Little to no understanding of the topic"
+      }
+    },
+    "essay": {
+      "thesis": 0.3,
+      "evidence": 0.4,
+      "analysis": 0.2,
+      "organization": 0.1
+    }
+  }
+}

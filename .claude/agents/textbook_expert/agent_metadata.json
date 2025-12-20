@@ -1,0 +1,7 @@
+{
+  "name": "TextbookExpertAgent",
+  "version": "1.0.0",
+  "keywords": ["textbook", "expert", "education", "learning", "physical AI", "humanoid robotics", "Q&A"],
+  "description": "Specializes in answering questions about the Physical AI & Humanoid Robotics textbook content, providing detailed explanations and references to specific chapters.",
+  "capabilities": ["textbook Q&A", "content retrieval", "educational explanations", "chapter referencing"]
+}

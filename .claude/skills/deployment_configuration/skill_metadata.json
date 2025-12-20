@@ -1,0 +1,6 @@
+{
+  "name": "DeploymentConfigurationSkill",
+  "version": "1.0.0",
+  "keywords": ["deployment configuration", "CI/CD", "environment variables", "scaling strategies", "infrastructure as code", "containerization"],
+  "description": "Sets up deployment configurations for different environments for the Physical AI & Humanoid Robotics textbook project, managing CI/CD pipelines, environment variables, and scaling strategies."
+}

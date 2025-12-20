@@ -1,0 +1,6 @@
+{
+  "name": "CodeDocumentationSkill",
+  "version": "1.0.0",
+  "keywords": ["code documentation", "API documentation", "code comments", "usage examples", "technical writing", "readability"],
+  "description": "Generates comprehensive documentation for codebases, including API documentation, code comments, and usage examples for the Physical AI & Humanoid Robotics textbook project."
+}

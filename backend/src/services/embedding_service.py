@@ -19,7 +19,26 @@ class EmbeddingService:
             return response.embeddings[0]
         except Exception as e:
             print(f"Error generating embedding with Cohere: {e}")
-            return None
+            # Return a fallback embedding or None
+            # In a production system, you might want to try a different service or return cached embeddings
+            return self._get_fallback_embedding(text)
+
+    def _get_fallback_embedding(self, text: str) -> Optional[List[float]]:
+        """
+        Generate a fallback embedding when the primary service is unavailable.
+
+        Args:
+            text: Input text to generate embedding for
+
+        Returns:
+            A simple fallback embedding or None
+        """
+        # In a more sophisticated system, you might:
+        # 1. Use a local embedding model
+        # 2. Return cached embeddings for similar content
+        # 3. Use a different embedding service as backup
+        # For now, return None to indicate failure
+        return None
 
     def get_embeddings_batch(self, texts: List[str]) -> Optional[List[List[float]]]:
         """Generate embeddings for multiple texts using Cohere."""
@@ -32,7 +51,32 @@ class EmbeddingService:
             return response.embeddings
         except Exception as e:
             print(f"Error generating batch embeddings with Cohere: {e}")
-            return None
+            # Try to generate embeddings one by one as a fallback
+            return self._get_embeddings_batch_fallback(texts)
+
+    def _get_embeddings_batch_fallback(self, texts: List[str]) -> Optional[List[List[float]]]:
+        """
+        Generate embeddings for multiple texts one by one when batch fails.
+
+        Args:
+            texts: List of texts to generate embeddings for
+
+        Returns:
+            List of embeddings or None if all fail
+        """
+        embeddings = []
+        all_failed = True
+
+        for text in texts:
+            embedding = self.get_embedding(text)  # This will use the fallback logic
+            if embedding is not None:
+                embeddings.append(embedding)
+                all_failed = False
+            else:
+                # Add a null/empty embedding to maintain list order
+                embeddings.append([0.0] * 1024)  # Assuming 1024-dim vectors
+
+        return embeddings if not all_failed else None
 
     def add_text_to_vector_store(self, content_id: str, text: str, metadata: Optional[dict] = None) -> bool:
         """Generate embedding for text and add it to the vector store."""

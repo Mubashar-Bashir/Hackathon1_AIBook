@@ -1,0 +1,6 @@
+{
+  "name": "TestingStrategySkill",
+  "version": "1.0.0",
+  "keywords": ["testing strategy", "unit tests", "integration tests", "end-to-end tests", "test coverage", "quality assurance"],
+  "description": "Creates comprehensive testing plans and strategies for the Physical AI & Humanoid Robotics textbook project, ensuring code quality and reliability through systematic testing approaches."
+}

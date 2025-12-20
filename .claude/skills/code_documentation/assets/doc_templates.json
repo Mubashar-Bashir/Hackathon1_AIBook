@@ -1,0 +1,182 @@
+{
+  "python": {
+    "function": {
+      "template": "def {function_name}({parameters}):\n    \"\"\"\n    {function_name} - {description}\n\n    Args:\n{args_list}\n\n    Returns:\n        {return_type}: {return_description}\n\n    Raises:\n        {exception_list}\n\n    Example:\n        {example}\n    \"\"\"\n    pass",
+      "docstring_format": "Google",
+      "comment_style": "#"
+    },
+    "class": {
+      "template": "class {class_name}:\n    \"\"\"\n    {class_name} - {description}\n\n    Attributes:\n{attributes_list}\n\n    Methods:\n{methods_list}\n    \"\"\"\n\n    def __init__(self{init_params}):\n        \"\"\"\n        Initialize {class_name}.\n\n        Args:\n{init_args_list}\n        \"\"\"\n        pass",
+      "docstring_format": "Google",
+      "comment_style": "#"
+    },
+    "module": {
+      "template": "\"\"\"\n{module_name} - {description}\n\nThis module provides functionality for {functionality_description}.\n\nFunctions:\n{functions_list}\n\nClasses:\n{classes_list}\n\"\"\"",
+      "docstring_format": "Google",
+      "comment_style": "#"
+    }
+  },
+  "javascript": {
+    "function": {
+      "template": "/**\n * {description}\n *\n * @param {{*}} {parameters} - Description of parameters\n * @returns {{*}} {return_description}\n * @throws {{Error}} Description of possible errors\n * @example\n * {example}\n */\nfunction {function_name}({parameters}) {\n    // Implementation here\n}",
+      "docstring_format": "JSDoc",
+      "comment_style": "//"
+    },
+    "class": {
+      "template": "/**\n * {description}\n */\nclass {class_name} {\n    /**\n     * @param {{*}} {parameters} - Description of constructor parameters\n     */\n    constructor({parameters}) {\n        // Implementation here\n    }\n}",
+      "docstring_format": "JSDoc",
+      "comment_style": "//"
+    }
+  },
+  "typescript": {
+    "function": {
+      "template": "/**\n * {description}\n *\n * @param {{*}} {parameters} - Description of parameters\n * @returns {{*}} {return_type} {return_description}\n * @throws {{Error}} Description of possible errors\n * @example\n * {example}\n */\nfunction {function_name}({typed_parameters}): {return_type} {\n    // Implementation here\n}",
+      "docstring_format": "JSDoc",
+      "comment_style": "//"
+    },
+    "class": {
+      "template": "/**\n * {description}\n */\nclass {class_name} {\n    /**\n     * @param {{*}} {parameters} - Description of constructor parameters\n     */\n    constructor({typed_parameters}: {typed_constructor_params}) {\n        // Implementation here\n    }\n}",
+      "docstring_format": "JSDoc",
+      "comment_style": "//"
+    }
+  },
+  "documentation_patterns": {
+    "function": [
+      "calculate",
+      "process",
+      "generate",
+      "validate",
+      "transform",
+      "get",
+      "set",
+      "update",
+      "delete",
+      "create",
+      "initialize",
+      "configure",
+      "handle",
+      "execute",
+      "perform",
+      "build",
+      "format",
+      "parse",
+      "serialize",
+      "deserialize"
+    ],
+    "class": [
+      "Manager",
+      "Service",
+      "Controller",
+      "Handler",
+      "Processor",
+      "Repository",
+      "Validator",
+      "Builder",
+      "Factory",
+      "Adapter",
+      "Decorator",
+      "Observer",
+      "Strategy",
+      "Command",
+      "State"
+    ],
+    "description_templates": [
+      "Processes {input_type} and returns {output_type}",
+      "Calculates and returns {result_type}",
+      "Validates {input_type} and returns boolean result",
+      "Transforms {input_type} to {output_type}",
+      "Handles {operation_type} operations for {entity_type}",
+      "Manages {resource_type} resources",
+      "Provides {functionality_type} functionality",
+      "Implements {pattern_type} pattern for {use_case}"
+    ]
+  },
+  "style_guides": {
+    "python": {
+      "naming_conventions": {
+        "function": "snake_case",
+        "class": "PascalCase",
+        "variable": "snake_case",
+        "constant": "UPPER_SNAKE_CASE"
+      },
+      "docstring_requirements": [
+        "Every public module, function, class, and method should have a docstring",
+        "Docstrings should follow Google, NumPy, or Sphinx format",
+        "Include Args, Returns, and Raises sections when appropriate"
+      ]
+    },
+    "javascript": {
+      "naming_conventions": {
+        "function": "camelCase",
+        "class": "PascalCase",
+        "variable": "camelCase",
+        "constant": "UPPER_SNAKE_CASE or camelCase"
+      },
+      "docstring_requirements": [
+        "Use JSDoc for all public functions and classes",
+        "Include @param, @returns, and @throws tags when appropriate",
+        "Provide examples using @example tag"
+      ]
+    },
+    "typescript": {
+      "naming_conventions": {
+        "function": "camelCase",
+        "class": "PascalCase",
+        "variable": "camelCase",
+        "constant": "UPPER_SNAKE_CASE or PascalCase for classes",
+        "interface": "PascalCase typically prefixed with I"
+      },
+      "docstring_requirements": [
+        "Use JSDoc for all public functions, classes, and interfaces",
+        "Include type annotations in addition to JSDoc",
+        "Provide examples using @example tag"
+      ]
+    }
+  },
+  "common_types": {
+    "python": [
+      "str",
+      "int",
+      "float",
+      "bool",
+      "list",
+      "dict",
+      "tuple",
+      "set",
+      "None",
+      "Any",
+      "Optional",
+      "Union",
+      "List",
+      "Dict",
+      "Callable",
+      "Iterator"
+    ],
+    "javascript": [
+      "string",
+      "number",
+      "boolean",
+      "object",
+      "array",
+      "function",
+      "null",
+      "undefined"
+    ],
+    "typescript": [
+      "string",
+      "number",
+      "boolean",
+      "object",
+      "any",
+      "void",
+      "null",
+      "undefined",
+      "never",
+      "unknown",
+      "Array<T>",
+      "T[]",
+      "Promise<T>",
+      "void"
+    ]
+  }
+}

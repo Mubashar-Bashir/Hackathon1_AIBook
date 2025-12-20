@@ -1,0 +1,6 @@
+{
+  "name": "EducationalAssessmentSkill",
+  "version": "1.0.0",
+  "keywords": ["educational assessment", "quiz generation", "exercises", "learning evaluation", "testing", "questions", "grading"],
+  "description": "Creates quizzes, exercises, and assessments for learning modules in the Physical AI & Humanoid Robotics textbook, with appropriate difficulty levels and pedagogical alignment."
+}

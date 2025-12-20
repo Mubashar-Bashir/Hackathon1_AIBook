@@ -1,0 +1,6 @@
+{
+  "name": "UIUXComponentsSkill",
+  "version": "1.0.0",
+  "keywords": ["UI components", "UX components", "react components", "design system", "frontend", "interface", "widgets"],
+  "description": "Creates and manages reusable UI components for the Physical AI & Humanoid Robotics textbook interface, following design system principles and accessibility standards."
+}

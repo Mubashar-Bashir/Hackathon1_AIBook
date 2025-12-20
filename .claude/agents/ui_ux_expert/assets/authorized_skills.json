@@ -1,0 +1,30 @@
+{
+  "agent": "UIUXExpertAgent",
+  "authorized_skills": [
+    {
+      "name": "UIUXComponentsSkill",
+      "path": "../../../skills/ui_ux_components",
+      "description": "For creating and managing UI components for the textbook interface"
+    },
+    {
+      "name": "AccessibilityCheckerSkill",
+      "path": "../../../skills/accessibility_checker",
+      "description": "For checking UI components against accessibility standards"
+    },
+    {
+      "name": "DesignSystemSkill",
+      "path": "../../../skills/design_system",
+      "description": "For maintaining consistent design patterns and components"
+    },
+    {
+      "name": "ResponsiveLayoutSkill",
+      "path": "../../../skills/responsive_layout",
+      "description": "For creating responsive layouts that work across devices"
+    }
+  ],
+  "configuration": {
+    "default_theme": "educational",
+    "accessibility_standards": "WCAG_2_1_AA",
+    "design_system": "material_design_3"
+  }
+}

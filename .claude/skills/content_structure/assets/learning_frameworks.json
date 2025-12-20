@@ -1,0 +1,69 @@
+{
+  "bloom_taxonomy": {
+    "remember": ["define", "list", "recall", "identify", "recognize", "state", "reproduce"],
+    "understand": ["describe", "explain", "summarize", "interpret", "discuss", "paraphrase", "classify"],
+    "apply": ["demonstrate", "solve", "use", "implement", "illustrate", "construct", "calculate"],
+    "analyze": ["compare", "contrast", "examine", "investigate", "categorize", "distinguish", "deconstruct"],
+    "evaluate": ["assess", "critique", "justify", "evaluate", "argue", "support", "appraise"],
+    "create": ["design", "construct", "develop", "formulate", "compose", "generate", "plan"]
+  },
+  "education_levels": {
+    "high_school": {
+      "complexity": "basic",
+      "depth": "foundational",
+      "examples": "concrete",
+      "activities": ["exercises", "quizzes", "projects", "discussions", "demonstrations"],
+      "assessment_types": ["multiple_choice", "short_answer", "practical_demonstration"]
+    },
+    "undergraduate": {
+      "complexity": "intermediate",
+      "depth": "theoretical_and_applied",
+      "examples": "mixed_concrete_abstract",
+      "activities": ["assignments", "labs", "research", "discussions", "presentations", "case_studies"],
+      "assessment_types": ["essays", "projects", "exams", "research_papers", "presentations"]
+    },
+    "graduate": {
+      "complexity": "advanced",
+      "depth": "theoretical",
+      "examples": "abstract",
+      "activities": ["research", "analysis", "synthesis", "evaluation", "independent_study", "thesis"],
+      "assessment_types": ["thesis", "dissertation", "research_proposal", "peer_review", "conference_presentation"]
+    }
+  },
+  "pedagogical_principles": [
+    "active_learning",
+    "scaffolding",
+    "differentiated_instruction",
+    "formative_assessment",
+    "metacognition",
+    "constructivism",
+    "collaborative_learning"
+  ],
+  "content_structure_patterns": {
+    "standard_chapter": [
+      "learning_objectives",
+      "introduction",
+      "main_content",
+      "examples_applications",
+      "summary",
+      "review_questions",
+      "further_reading"
+    ],
+    "problem_based": [
+      "problem_presentation",
+      "background_information",
+      "analysis_approach",
+      "solution_methods",
+      "evaluation",
+      "reflection"
+    ],
+    "case_study": [
+      "case_presentation",
+      "context_background",
+      "key_issues",
+      "analysis_framework",
+      "solutions_considered",
+      "outcomes_lessons"
+    ]
+  }
+}
